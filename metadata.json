@@ -1,0 +1,7 @@
+{
+  "name": "KAD CRM - Field Intelligence",
+  "description": "A comprehensive field intelligence and logistics management system for venue management, beat planning, and lead capture.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

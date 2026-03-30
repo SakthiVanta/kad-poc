@@ -1,0 +1,83 @@
+@import "tailwindcss";
+@import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline: "Manrope", sans-serif;
+  
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-tertiary: #00674e;
+  --color-tertiary-container: #008364;
+  
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline-variant: var(--outline-variant);
+}
+
+@layer base {
+  :root {
+    /* Default Theme (Ruby Red) */
+    --primary: #b7003b;
+    --primary-container: #e5004c;
+    
+    --surface: #f7f9fc;
+    --surface-container: #eceef1;
+    --surface-container-low: #f2f4f7;
+    --surface-container-lowest: #ffffff;
+    --on-surface: #191c1e;
+    --on-surface-variant: #5d3f41;
+    --outline-variant: #e6bcbf;
+  }
+
+  .dark {
+    --surface: #0f172a;
+    --surface-container: #1e293b;
+    --surface-container-low: #1e293b;
+    --surface-container-lowest: #020617;
+    --on-surface: #f8fafc;
+    --on-surface-variant: #94a3b8;
+    --outline-variant: #334155;
+  }
+
+  /* Dynamically applied theme colors */
+  :root[data-theme-color="blue"] {
+    --primary: #005fbc;
+    --primary-container: #0078ea;
+  }
+  :root[data-theme-color="green"] {
+    --primary: #0f8241;
+    --primary-container: #15b75a;
+  }
+  :root[data-theme-color="purple"] {
+    --primary: #6c2bd9;
+    --primary-container: #8b5cf6;
+  }
+  :root[data-theme-color="orange"] {
+    --primary: #d94e1b;
+    --primary-container: #f97316;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    @apply font-sans transition-colors duration-300;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-headline;
+}
+
+/* Custom scrollbar for sidebar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
