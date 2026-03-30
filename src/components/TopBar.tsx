@@ -121,28 +121,43 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
               </div>
 
               <div className="flex-1 overflow-y-auto no-scrollbar p-4 space-y-3">
-                {notifications.map((notif) => (
-                  <div 
-                    key={notif.id}
-                    className="p-4 bg-surface-container-low rounded-2xl border border-outline-variant/5 hover:border-primary/20 transition-all group cursor-pointer"
-                  >
-                    <div className="flex gap-4">
-                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", notif.color, "bg-white/50")}>
-                        <notif.icon className="w-5 h-5" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start mb-1">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">{notif.type}</span>
-                          <span className="text-[10px] text-on-surface-variant font-medium">{notif.time}</span>
+                {notifications.map((notif) => {
+                  const getNavPath = (type: string) => {
+                    switch (type) {
+                      case 'P1 Visit': return '/p1-visit';
+                      case 'Commission': return '/commission';
+                      case 'BWG': return '/bwg';
+                      default: return '/';
+                    }
+                  };
+
+                  return (
+                    <div 
+                      key={notif.id}
+                      onClick={() => {
+                        setIsNotifOpen(false);
+                        navigate(getNavPath(notif.type));
+                      }}
+                      className="p-4 bg-surface-container-low rounded-2xl border border-outline-variant/5 hover:border-primary/20 transition-all group cursor-pointer"
+                    >
+                      <div className="flex gap-4">
+                        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", notif.color, "bg-white/50")}>
+                          <notif.icon className="w-5 h-5" />
                         </div>
-                        <p className="text-sm font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">{notif.message}</p>
-                        <button className="mt-3 text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:gap-2 transition-all">
-                          Take Action <ChevronRight className="w-3 h-3" />
-                        </button>
+                        <div className="flex-1">
+                          <div className="flex justify-between items-start mb-1">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">{notif.type}</span>
+                            <span className="text-[10px] text-on-surface-variant font-medium">{notif.time}</span>
+                          </div>
+                          <p className="text-sm font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">{notif.message}</p>
+                          <button className="mt-3 text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                            Take Action <ChevronRight className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="p-6 border-t border-outline-variant/10 bg-surface-container-low/30">
