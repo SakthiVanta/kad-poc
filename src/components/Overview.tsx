@@ -413,7 +413,7 @@ export function Overview() {
                 <th className="px-6 py-4 text-center">Comm. Coll.</th>
                 <th className="px-6 py-4 text-center">Pending</th>
                 <th className="px-6 py-4 text-center">BWG Traffic</th>
-                <th className="px-6 py-4">BWG Promise</th>
+                <th className="px-6 py-4 text-center">BWG Promise</th>
                 <th className="px-6 py-4"></th>
               </tr>
             </thead>
@@ -447,7 +447,7 @@ export function Overview() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-center font-mono text-xs font-bold">{venue.traffic}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 text-center">
                     <span className={cn(
                       "px-2 py-1 text-[10px] font-black uppercase rounded tracking-wider whitespace-nowrap",
                       venue.status === 'Verified' ? "bg-tertiary/10 text-tertiary" : "bg-secondary-container/30 text-secondary"
