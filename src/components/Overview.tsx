@@ -52,7 +52,7 @@ const venues = [
     commCollected: 2,
     pendingComm: 1,
     traffic: '56,000',
-    status: 'Verified',
+    status: 'Yes',
     image: 'https://picsum.photos/seed/hall/100/100',
     description: 'A premium luxury hall suitable for corporate events and grand weddings. Features state-of-the-art acoustics and a dedicated catering wing.',
     manager: 'Rahul Sharma',
@@ -68,7 +68,7 @@ const venues = [
     commCollected: 1,
     pendingComm: 1,
     traffic: '42,500',
-    status: 'Pending Audit',
+    status: 'Pending',
     image: 'https://picsum.photos/seed/banquet/100/100',
     description: 'Eco-friendly banquet space with a focus on natural lighting and sustainable event management.',
     manager: 'Priya Patel',
@@ -84,7 +84,7 @@ const venues = [
     commCollected: 5,
     pendingComm: 0,
     traffic: '68,200',
-    status: 'Verified',
+    status: 'No',
     image: 'https://picsum.photos/seed/residency/100/100',
     description: 'Heritage residency offering a classic old-world charm combined with modern amenities.',
     manager: 'Vikram Singh',
@@ -412,8 +412,8 @@ export function Overview() {
                 <th className="px-6 py-4 text-center">Booked</th>
                 <th className="px-6 py-4 text-center">Comm. Coll.</th>
                 <th className="px-6 py-4 text-center">Pending</th>
-                <th className="px-6 py-4 text-right">BWG Traffic</th>
-                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-center">BWG Traffic</th>
+                <th className="px-6 py-4">BWG Promise</th>
                 <th className="px-6 py-4"></th>
               </tr>
             </thead>
@@ -446,7 +446,7 @@ export function Overview() {
                       {venue.pendingComm}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right font-mono text-xs font-bold">{venue.traffic}</td>
+                  <td className="px-6 py-4 text-center font-mono text-xs font-bold">{venue.traffic}</td>
                   <td className="px-6 py-4">
                     <span className={cn(
                       "px-2 py-1 text-[10px] font-black uppercase rounded tracking-wider whitespace-nowrap",
@@ -455,7 +455,7 @@ export function Overview() {
                       {venue.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-center">
                     <ChevronRight className="w-5 h-5 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" />
                   </td>
                 </tr>
