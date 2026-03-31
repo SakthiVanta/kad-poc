@@ -22,15 +22,16 @@ import { BlockDate } from './components/BlockDate';
 
 export default function App() {
   const [isMapOpen, setIsMapOpen] = React.useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   return (
     <ThemeProvider>
       <Router>
-        <div className="flex min-h-screen bg-surface">
-          <Sidebar />
-          <div className="flex-1 lg:ml-64 flex flex-col">
-            <TopBar onOpenMap={() => setIsMapOpen(true)} />
-            <main className="flex-1 p-6 md:p-10">
+        <div className="flex min-h-screen bg-surface w-full overflow-x-hidden">
+          <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+          <div className="flex-1 lg:ml-64 flex flex-col min-w-0">
+            <TopBar onOpenMap={() => setIsMapOpen(true)} onOpenSidebar={() => setIsSidebarOpen(true)} />
+            <main className="flex-1 p-4 md:p-8 min-w-0 w-full overflow-x-hidden">
               <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="/new-listing" element={<NewListing />} />

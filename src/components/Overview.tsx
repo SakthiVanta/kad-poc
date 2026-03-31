@@ -68,7 +68,7 @@ const venues = [
     commCollected: 1,
     pendingComm: 1,
     traffic: '42,500',
-    status: 'Pending',
+    status: 'Partial',
     image: 'https://picsum.photos/seed/banquet/100/100',
     description: 'Eco-friendly banquet space with a focus on natural lighting and sustainable event management.',
     manager: 'Priya Patel',
@@ -100,7 +100,7 @@ export function Overview() {
       {/* Venue Detail Modal */}
       <AnimatePresence>
         {selectedVenue && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-4 md:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -115,7 +115,7 @@ export function Overview() {
               className="relative w-full max-w-4xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
             >
               {/* Modal Left: Visuals & Quick Info */}
-              <div className="w-full md:w-2/5 bg-primary-container p-8 text-white relative overflow-hidden flex flex-col">
+              <div className="w-full md:w-2/5 bg-primary-container p-4 md:p-8 text-white relative overflow-hidden flex flex-col">
                 <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                 
@@ -185,7 +185,7 @@ export function Overview() {
               </div>
 
               {/* Modal Right: Details & Actions */}
-              <div className="flex-1 p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
+              <div className="flex-1 p-4 md:p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
                 <div className="flex justify-between items-center mb-8">
                   <h3 className="text-xl font-black text-on-surface tracking-tight">Venue Intelligence</h3>
                   <button 
@@ -218,7 +218,7 @@ export function Overview() {
                     <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-2">Venue Description</h4>
                     <p className="text-sm text-on-surface-variant leading-relaxed">{selectedVenue.description}</p>
                   </div>
-                  <div className="flex gap-8">
+                  <div className="flex gap-4 md:gap-8">
                     <div>
                       <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Manager</h4>
                       <p className="text-sm font-bold">{selectedVenue.manager}</p>
@@ -273,7 +273,7 @@ export function Overview() {
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
           { label: 'Suggested Count', value: '1,248', trend: '+12%', icon: Lightbulb, color: 'text-primary' },
           { label: 'Booked Count', value: '856', trend: '+8.4%', icon: CalendarCheck, color: 'text-primary' },
@@ -285,7 +285,7 @@ export function Overview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-b-4 border-primary/20"
+            className="bg-surface-container-lowest p-4 md:p-6 rounded-xl shadow-sm border-b-4 border-primary/20"
           >
             <div className="flex justify-between items-start mb-4">
               <div className="p-2 bg-primary-container/10 rounded-lg">
@@ -306,8 +306,8 @@ export function Overview() {
       </div>
 
       {/* Mid Section: Analytics and Active Venue */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
+        <div className="lg:col-span-2 bg-surface-container-lowest p-4 md:p-8 rounded-2xl shadow-sm">
           <div className="flex justify-between items-center mb-8">
             <div>
               <h3 className="text-xl font-extrabold text-on-surface tracking-tight">Website Traffic Analytics</h3>
@@ -344,7 +344,7 @@ export function Overview() {
           </div>
         </div>
 
-        <div className="bg-primary-container p-8 rounded-2xl shadow-xl text-white flex flex-col justify-between overflow-hidden relative">
+        <div className="bg-primary-container p-4 md:p-8 rounded-2xl shadow-xl text-white flex flex-col justify-between overflow-hidden relative">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
           <div className="relative z-10">
             <div className="flex justify-between items-start mb-6">
@@ -378,7 +378,7 @@ export function Overview() {
 
       {/* Venue Table Section */}
       <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-4 md:p-6 border-b border-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h3 className="text-xl font-extrabold text-on-surface">Venue Performance Dashboard</h3>
             <p className="text-xs text-on-surface-variant font-medium">Detailed KPI breakdown per venue</p>
@@ -405,16 +405,16 @@ export function Overview() {
           <table className="w-full text-left min-w-[1000px]">
             <thead className="bg-surface-container-low text-on-surface-variant uppercase text-[10px] font-black tracking-widest sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4">Venue ID</th>
-                <th className="px-6 py-4">Venue Name</th>
-                <th className="px-6 py-4">Last Visit</th>
-                <th className="px-6 py-4 text-center">Suggested</th>
-                <th className="px-6 py-4 text-center">Booked</th>
-                <th className="px-6 py-4 text-center">Comm. Coll.</th>
-                <th className="px-6 py-4 text-center">Pending</th>
-                <th className="px-6 py-4 text-center">BWG Traffic</th>
-                <th className="px-6 py-4 text-center">BWG Promise</th>
-                <th className="px-6 py-4"></th>
+                <th className="px-4 md:px-6 py-4">Venue ID</th>
+                <th className="px-4 md:px-6 py-4">Venue Name</th>
+                <th className="px-4 md:px-6 py-4">Last Visit</th>
+                <th className="px-4 md:px-6 py-4 text-center">Suggested</th>
+                <th className="px-4 md:px-6 py-4 text-center">Booked</th>
+                <th className="px-4 md:px-6 py-4 text-center">Comm. Coll.</th>
+                <th className="px-4 md:px-6 py-4 text-center">Pending</th>
+                <th className="px-4 md:px-6 py-4 text-center">BWG Traffic</th>
+                <th className="px-4 md:px-6 py-4 text-center">BWG Promise</th>
+                <th className="px-4 md:px-6 py-4"></th>
               </tr>
             </thead>
             <tbody className="divide-y-4 divide-surface">
@@ -424,8 +424,8 @@ export function Overview() {
                   onClick={() => setSelectedVenue(venue)}
                   className="hover:bg-surface transition-colors cursor-pointer group"
                 >
-                  <td className="px-6 py-4 text-sm font-bold text-on-surface-variant">{venue.id}</td>
-                  <td className="px-6 py-4 min-w-[250px]">
+                  <td className="px-4 md:px-6 py-4 text-sm font-bold text-on-surface-variant">{venue.id}</td>
+                  <td className="px-4 md:px-6 py-4 min-w-[250px]">
                     <div className="flex items-center gap-3">
                       <img src={venue.image} alt={venue.name} className="w-10 h-10 rounded-lg object-cover shrink-0" referrerPolicy="no-referrer" />
                       <div className="truncate">
@@ -434,11 +434,11 @@ export function Overview() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">{venue.lastVisit}</td>
-                  <td className="px-6 py-4 text-center font-bold">{venue.suggested}</td>
-                  <td className="px-6 py-4 text-center font-bold">{venue.booked}</td>
-                  <td className="px-6 py-4 text-center font-bold text-tertiary">{venue.commCollected}</td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 md:px-6 py-4 text-sm font-medium whitespace-nowrap">{venue.lastVisit}</td>
+                  <td className="px-4 md:px-6 py-4 text-center font-bold">{venue.suggested}</td>
+                  <td className="px-4 md:px-6 py-4 text-center font-bold">{venue.booked}</td>
+                  <td className="px-4 md:px-6 py-4 text-center font-bold text-tertiary">{venue.commCollected}</td>
+                  <td className="px-4 md:px-6 py-4 text-center">
                     <span className={cn(
                       "font-bold",
                       venue.pendingComm > 0 ? "text-error" : "text-on-surface-variant opacity-40"
@@ -446,8 +446,8 @@ export function Overview() {
                       {venue.pendingComm}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-center font-mono text-xs font-bold">{venue.traffic}</td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 md:px-6 py-4 text-center font-mono text-xs font-bold">{venue.traffic}</td>
+                  <td className="px-4 md:px-6 py-4 text-center">
                     <span className={cn(
                       "px-2 py-1 text-[10px] font-black uppercase rounded tracking-wider whitespace-nowrap",
                       venue.status === 'Verified' ? "bg-tertiary/10 text-tertiary" : "bg-secondary-container/30 text-secondary"
@@ -455,7 +455,7 @@ export function Overview() {
                       {venue.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 md:px-6 py-4 text-center">
                     <ChevronRight className="w-5 h-5 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" />
                   </td>
                 </tr>
@@ -463,7 +463,7 @@ export function Overview() {
             </tbody>
           </table>
         </div>
-        <div className="p-6 bg-surface-container-low/30 flex justify-between items-center">
+        <div className="p-4 md:p-6 bg-surface-container-low/30 flex justify-between items-center">
           <p className="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Showing 1-10 of 248 Venues</p>
           <div className="flex gap-2">
             <button className="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm hover:bg-primary-container hover:text-white transition-all">

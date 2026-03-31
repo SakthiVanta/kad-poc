@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, MapPin, Menu, Sun, Moon, X, CheckCircle2, AlertCircle, Info, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
+import { Search, Bell, MapPin, Menu, Sun, Moon, X, CheckCircle2, AlertCircle, Info, ChevronRight, Settings as SettingsIcon, Phone } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
@@ -13,33 +13,34 @@ const notifications = [
   { id: 4, type: 'System', message: 'Sync completed successfully', time: '5 hours ago', priority: 'low', icon: CheckCircle2, color: 'text-on-surface-variant' },
 ];
 
-export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
+export function TopBar({ onOpenMap, onOpenSidebar }: { onOpenMap: () => void, onOpenSidebar: () => void }) {
   const { theme, toggleTheme } = useTheme();
   const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
     <>
-      <header className="bg-surface-container-lowest/80 backdrop-blur-xl sticky top-0 z-40 w-full px-6 py-3 flex justify-between items-center shadow-sm border-b border-outline-variant/10">
+      <header className="bg-surface-container-lowest/80 backdrop-blur-xl sticky top-0 z-40 w-full px-4 md:px-6 py-3 flex justify-between items-center shadow-sm border-b border-outline-variant/10">
         <div className="flex items-center gap-4">
-          <button className="lg:hidden p-2 text-on-surface">
-            <Menu className="w-6 h-6" />
+          <button onClick={onOpenSidebar} type="button" className="lg:hidden p-2 text-on-surface relative z-50 cursor-pointer active:scale-95 transition-transform hover:bg-surface-container-high rounded-full">
+            <Menu className="w-6 h-6 pointer-events-none" />
           </button>
-          <h2 className="text-xl font-black text-primary-container tracking-tight lg:hidden">KAD CRM</h2>
+          <h2 className="text-xl font-black text-primary-container tracking-tight lg:hidden">KAD</h2>
         </div>
-        
-        <div className="flex items-center gap-6 flex-1 justify-end">
+
+        <div className="flex items-center gap-2 md:gap-6 flex-1 justify-end">
           <div className="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96 gap-2">
             <Search className="w-4 h-4 text-on-surface-variant" />
-            <input 
-              type="text" 
-              placeholder="Search Venues or IDs..." 
+            <input
+              type="text"
+              placeholder="Search Venues or IDs..."
               className="bg-transparent border-none focus:ring-0 text-sm w-full font-medium placeholder:text-on-surface-variant/50 text-on-surface"
             />
           </div>
-          
-          <div className="flex items-center gap-4">
-            <button 
+
+          <div className="flex items-center gap-1.5 md:gap-4">
+            <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant"
               title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
@@ -48,7 +49,7 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
             </button>
 
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsNotifOpen(true)}
                 className="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant relative"
               >
@@ -56,8 +57,8 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
                 <span className="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border-2 border-surface-container-lowest"></span>
               </button>
             </div>
-            
-            <button 
+
+            <button
               onClick={onOpenMap}
               className="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant"
               title="Open Beat Map"
@@ -65,25 +66,106 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
               <MapPin className="w-5 h-5" />
             </button>
 
-            <button 
+            <button
               onClick={() => navigate('/settings')}
               className="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant"
               title="Settings"
             >
               <SettingsIcon className="w-5 h-5" />
             </button>
-            
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs font-bold text-on-surface">Arjun Mehta</p>
-                <p className="text-[10px] text-on-surface-variant">Senior Field Executive</p>
-              </div>
-              <img 
-                src="https://picsum.photos/seed/arjun/100/100" 
-                alt="User profile" 
-                className="w-9 h-9 rounded-full object-cover ring-2 ring-primary-container/20"
-                referrerPolicy="no-referrer"
-              />
+
+            <div className="relative">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-3 hover:bg-surface-container-low p-1.5 md:p-2 rounded-xl transition-colors cursor-pointer text-left focus:outline-none"
+              >
+                <div className="text-right hidden sm:block">
+                  <p className="text-xs font-bold text-on-surface">Arjun Mehta</p>
+                  <p className="text-[10px] text-on-surface-variant">Senior Field Executive</p>
+                </div>
+                <img
+                  src="https://picsum.photos/seed/arjun/100/100"
+                  alt="User profile"
+                  className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover ring-2 ring-primary-container/20"
+                  referrerPolicy="no-referrer"
+                />
+              </button>
+
+              {/* Profile Dropdown */}
+              <AnimatePresence>
+                {isProfileOpen && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onClick={() => setIsProfileOpen(false)}
+                      className="fixed inset-0 z-[100]"
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                      className="absolute right-0 top-[calc(100%+0.5rem)] w-[320px] bg-surface-container-lowest rounded-[32px] shadow-2xl overflow-hidden flex flex-col z-[110] border border-outline-variant/10"
+                    >
+                      <div className="h-28 bg-gradient-to-br from-primary to-primary-container relative">
+                        <button
+                          onClick={() => setIsProfileOpen(false)}
+                          className="absolute top-4 right-4 p-2 bg-black/20 text-white rounded-full hover:bg-black/40 transition-colors"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                        <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-white border border-white/20">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          Active Status
+                        </div>
+                      </div>
+
+                      <div className="px-6 pb-6 relative">
+                        <div className="absolute -top-12 left-6 p-1.5 bg-surface-container-lowest rounded-full shadow-lg">
+                          <img src="https://picsum.photos/seed/arjun/200/200" className="w-20 h-20 rounded-full object-cover" alt="Profile" />
+                        </div>
+
+                        <div className="mt-14 space-y-1">
+                          <h3 className="text-2xl font-black text-on-surface tracking-tight">Arjun Mehta</h3>
+                          <p className="text-sm font-bold text-primary">Senior Field Executive</p>
+                        </div>
+
+                        <div className="mt-6 space-y-4">
+                          <div className="flex items-center gap-4 p-3 bg-surface-container-low rounded-2xl">
+                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                              <MapPin className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Base Territory</p>
+                              <p className="text-sm font-bold text-on-surface">North Delhi Zone</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4 p-3 bg-surface-container-low rounded-2xl">
+                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                              <Phone className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Contact Number</p>
+                              <p className="text-sm font-bold text-on-surface">+91 98765 43210</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4 p-3 bg-surface-container-low rounded-2xl">
+                            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                              <Info className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Employee ID</p>
+                              <p className="text-sm font-bold text-on-surface">EMP-90822</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
@@ -93,26 +175,26 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
       <AnimatePresence>
         {isNotifOpen && (
           <div className="fixed inset-0 z-[100] flex justify-end">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsNotifOpen(false)}
               className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="relative w-full max-w-md bg-surface-container-lowest h-full shadow-2xl flex flex-col"
             >
-              <div className="p-6 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
+              <div className="p-4 md:p-6 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
                 <div>
                   <h3 className="text-xl font-black tracking-tight">Field Alerts</h3>
                   <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">You have 3 unread notifications</p>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsNotifOpen(false)}
                   className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
                 >
@@ -132,7 +214,7 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
                   };
 
                   return (
-                    <div 
+                    <div
                       key={notif.id}
                       onClick={() => {
                         setIsNotifOpen(false);
@@ -160,7 +242,7 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
                 })}
               </div>
 
-              <div className="p-6 border-t border-outline-variant/10 bg-surface-container-low/30">
+              <div className="p-4 md:p-6 border-t border-outline-variant/10 bg-surface-container-low/30">
                 <button className="w-full py-3 bg-on-surface text-surface-container-lowest font-bold rounded-xl text-sm hover:opacity-90 transition-all">
                   Mark All as Read
                 </button>
@@ -169,6 +251,8 @@ export function TopBar({ onOpenMap }: { onOpenMap: () => void }) {
           </div>
         )}
       </AnimatePresence>
+
+
     </>
   );
 }

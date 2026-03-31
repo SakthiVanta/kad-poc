@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -39,8 +39,19 @@ const venues = [
   { id: '5067', name: 'Vista Convention', address: 'Whitefield, Bangalore', distance: '3.2 km' },
 ];
 
-export function Sidebar() {
+export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boolean; onClose?: () => void }) {
   const [isCheckInOpen, setIsCheckInOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVenue, setSelectedVenue] = useState<any>(null);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
@@ -59,10 +70,10 @@ export function Sidebar() {
     }, 2000);
   };
 
-  return (
+  const SidebarContent = ({ isMobile }: { isMobile?: boolean }) => (
     <>
-      <aside className="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest p-4 gap-2 z-50 border-r border-outline-variant/10">
-        <div className="flex items-center gap-3 px-2 py-4 mb-4">
+      <div className="flex items-center justify-between px-2 py-4 mb-4">
+        <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white font-black shadow-lg">
             K
           </div>
@@ -71,48 +82,87 @@ export function Sidebar() {
             <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold opacity-70">Field Intelligence</p>
           </div>
         </div>
-
-        <nav className="flex-1 flex flex-col gap-1 overflow-y-auto no-scrollbar">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 font-medium text-sm",
-                isActive 
-                  ? "bg-primary-container text-white shadow-md font-bold" 
-                  : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
-              )}
-            >
-              <item.icon className="w-5 h-5" />
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="mt-auto flex flex-col gap-1 pt-4 border-t border-outline-variant/10">
-          <button 
-            onClick={() => setIsCheckInOpen(true)}
-            className="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95 mb-4 flex items-center justify-center gap-2"
-          >
-            <MapPin className="w-4 h-4" />
-            Check-in at Venue
+        {isMobile && (
+          <button onClick={onClose} className="p-2 hover:bg-surface-container-low rounded-full transition-colors lg:hidden">
+            <X className="w-5 h-5 text-on-surface-variant" />
           </button>
-          
+        )}
+      </div>
+
+      <nav className="flex-1 flex flex-col gap-1 overflow-y-auto no-scrollbar">
+        {navItems.map((item) => (
           <NavLink
-            to="/settings"
-            className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium rounded-lg"
+            key={item.path}
+            to={item.path}
+            onClick={isMobile ? onClose : undefined}
+            className={({ isActive }) => cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 font-medium text-sm",
+              isActive 
+                ? "bg-primary-container text-white shadow-md font-bold" 
+                : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            )}
           >
-            <Settings className="w-5 h-5" />
-            <span>Settings</span>
+            <item.icon className="w-5 h-5" />
+            <span>{item.label}</span>
           </NavLink>
-          
-          <button className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium w-full text-left rounded-lg">
-            <LogOut className="w-5 h-5" />
-            <span>Logout</span>
-          </button>
-        </div>
+        ))}
+      </nav>
+
+      <div className="mt-auto flex flex-col gap-1 pt-4 border-t border-outline-variant/10">
+        <button 
+          onClick={() => { if (isMobile) onClose(); setIsCheckInOpen(true); }}
+          className="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95 mb-4 flex items-center justify-center gap-2"
+        >
+          <MapPin className="w-4 h-4" />
+          Check-in at Venue
+        </button>
+        
+        <NavLink
+          to="/settings"
+          onClick={isMobile ? onClose : undefined}
+          className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium rounded-lg"
+        >
+          <Settings className="w-5 h-5" />
+          <span>Settings</span>
+        </NavLink>
+        
+        <button className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium w-full text-left rounded-lg">
+          <LogOut className="w-5 h-5" />
+          <span>Logout</span>
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest p-4 gap-2 z-50 border-r border-outline-variant/10">
+        <SidebarContent />
       </aside>
+
+      {/* Mobile Drawer Sidebar */}
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
+            />
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              className="absolute top-0 left-0 bottom-0 w-[280px] bg-surface-container-lowest p-4 flex flex-col gap-2 shadow-2xl border-r border-outline-variant/10"
+            >
+              <SidebarContent isMobile />
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Check-in Modal */}
       <AnimatePresence>
@@ -131,7 +181,7 @@ export function Sidebar() {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="relative w-full max-w-lg bg-surface-container-lowest rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-              <div className="p-8 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
+              <div className="p-4 md:p-8 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
                 <div>
                   <h3 className="text-2xl font-black tracking-tight">Venue Check-in</h3>
                   <p className="text-xs font-bold opacity-70 uppercase tracking-widest mt-1">Confirm your arrival at the location</p>
@@ -144,7 +194,7 @@ export function Sidebar() {
                 </button>
               </div>
 
-              <div className="p-6 flex-1 overflow-y-auto no-scrollbar space-y-6">
+              <div className="p-4 md:p-6 flex-1 overflow-y-auto no-scrollbar space-y-6">
                 {!selectedVenue ? (
                   <div className="space-y-4">
                     <div className="relative">

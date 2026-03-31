@@ -98,7 +98,7 @@ export function P1Visit() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-primary/5 rounded-xl border border-primary/10"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-4 md:p-6 bg-primary/5 rounded-xl border border-primary/10"
           >
             <div className="col-span-full mb-2">
               <p className="text-xs font-bold text-primary uppercase tracking-wider">Booking Confirmation Details</p>
@@ -134,7 +134,7 @@ export function P1Visit() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-tertiary/5 rounded-xl border border-tertiary/10"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-4 md:p-6 bg-tertiary/5 rounded-xl border border-tertiary/10"
           >
             <div className="col-span-full mb-2">
               <p className="text-xs font-bold text-tertiary uppercase tracking-wider">Alternate Proposal Details</p>
@@ -174,7 +174,7 @@ export function P1Visit() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 bg-error/5 rounded-xl border border-error/10 space-y-4"
+            className="p-4 md:p-6 bg-error/5 rounded-xl border border-error/10 space-y-4"
           >
             <div className="mb-2">
               <p className="text-xs font-bold text-error uppercase tracking-wider">Rejection Reason</p>
@@ -190,12 +190,12 @@ export function P1Visit() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 bg-secondary/5 rounded-xl border border-secondary/10 space-y-4"
+            className="p-4 md:p-6 bg-secondary/5 rounded-xl border border-secondary/10 space-y-4"
           >
             <div className="mb-2">
               <p className="text-xs font-bold text-secondary uppercase tracking-wider">Follow-up Schedule</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-on-surface-variant uppercase">Follow-up Date</label>
                 <input type="date" className="w-full bg-surface-container-low border-none border-b-2 border-transparent focus:border-secondary focus:ring-0 px-4 py-3 font-medium transition-all" />
@@ -233,10 +233,10 @@ export function P1Visit() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
           {/* Left Column: Customer Info */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl shadow-sm border border-outline-variant/10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
                   <User className="w-8 h-8 text-primary" />
@@ -272,7 +272,7 @@ export function P1Visit() {
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl shadow-sm border border-outline-variant/10">
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-primary" />
                 Recent Activity
@@ -291,7 +291,7 @@ export function P1Visit() {
 
           {/* Right Column: Disposition Form */}
           <div className="lg:col-span-8">
-            <div className="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant/10">
+            <div className="bg-surface-container-lowest p-4 md:p-8 rounded-2xl shadow-sm border border-outline-variant/10">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-xl font-bold">Outcome Details</h3>
                 <span className="text-[10px] font-black uppercase tracking-widest bg-surface-container-high px-3 py-1 rounded-full">Step 2 of 2</span>
@@ -324,7 +324,7 @@ export function P1Visit() {
                   <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="pt-6 border-t border-surface-container-low flex flex-col md:flex-row gap-6 items-center"
+                    className="pt-6 border-t border-surface-container-low flex flex-col md:flex-row gap-4 md:gap-6 items-center"
                   >
                     <button className="w-full md:w-auto px-12 py-4 bg-primary text-white rounded-xl font-bold shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
                       Save & Sync to CRM
@@ -347,7 +347,7 @@ export function P1Visit() {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <nav className="flex items-center gap-2 text-on-surface-variant text-[10px] uppercase tracking-widest mb-2 font-bold">
             <span>CRM Modules</span>
@@ -386,7 +386,7 @@ export function P1Visit() {
 
       {/* Listing Section */}
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-4 md:p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-xl font-bold">Active Visit Plans</h2>
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -409,11 +409,11 @@ export function P1Visit() {
           <table className="w-full text-left min-w-[800px]">
             <thead className="bg-surface-container-low/50 text-on-surface-variant uppercase text-[10px] font-black tracking-widest sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4">Customer Details</th>
-                <th className="px-6 py-4">Meeting Time</th>
-                <th className="px-6 py-4">Suggested Venues</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-4 md:px-6 py-4">Customer Details</th>
+                <th className="px-4 md:px-6 py-4">Meeting Time</th>
+                <th className="px-4 md:px-6 py-4">Suggested Venues</th>
+                <th className="px-4 md:px-6 py-4">Status</th>
+                <th className="px-4 md:px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
@@ -426,7 +426,7 @@ export function P1Visit() {
                     visit.status === 'Completed' && "opacity-60 grayscale-[0.5]"
                   )}
                 >
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary">
                         {visit.customerName.charAt(0)}
@@ -437,7 +437,7 @@ export function P1Visit() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-primary" />
                       <span className="text-sm font-bold">
@@ -448,7 +448,7 @@ export function P1Visit() {
                       {new Date(visit.timeOfMeeting).toLocaleDateString([], { day: 'numeric', month: 'short' })}
                     </p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex flex-wrap gap-1.5">
                       {visit.suggestedVenues.map((v, i) => (
                         <span key={i} className="px-2 py-0.5 bg-surface-container-high rounded text-[10px] font-bold">
@@ -457,7 +457,7 @@ export function P1Visit() {
                       ))}
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <span className={cn(
                       "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider",
                       visit.status === 'Pending' ? "bg-tertiary/10 text-tertiary" : "bg-secondary/10 text-secondary"
@@ -465,7 +465,7 @@ export function P1Visit() {
                       {visit.status}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-4 md:px-6 py-5 text-right">
                     {visit.status === 'Pending' ? (
                       <button className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-lg shadow-primary/10 group-hover:scale-105 transition-all">
                         Disposition

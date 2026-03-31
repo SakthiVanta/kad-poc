@@ -61,10 +61,10 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
   };
 
   const renderMainView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
       {/* Profile Card */}
       <div className="md:col-span-1 space-y-6">
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm text-center">
+        <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm text-center">
           <div className="relative inline-block mb-4">
             <img 
               src="https://picsum.photos/seed/arjun/200/200" 
@@ -91,7 +91,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
           </button>
         </div>
 
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
+        <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
           <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4">Quick Actions</h3>
           <div className="space-y-3">
             <button 
@@ -148,7 +148,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
       <div className="md:col-span-2 space-y-6">
         {sections.map((section, idx) => (
           <div key={idx} className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30">
+            <div className="px-4 md:px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30">
               <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant">{section.title}</h3>
             </div>
             <div className="divide-y divide-outline-variant/10">
@@ -156,7 +156,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
                 <button 
                   key={itemIdx}
                   onClick={() => handleItemClick(item.id)}
-                  className="w-full flex items-center justify-between p-6 hover:bg-surface transition-colors group text-left"
+                  className="w-full flex items-center justify-between p-4 md:p-6 hover:bg-surface transition-colors group text-left"
                 >
                   <div className="flex items-center gap-4">
                     <div className={cn("p-2.5 rounded-xl bg-surface-container-low group-hover:bg-surface-container-high transition-colors", item.color)}>
@@ -181,7 +181,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm"
+      className="bg-surface-container-lowest p-4 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm"
     >
       <div className="flex items-center gap-4 mb-8">
         <button 
@@ -194,7 +194,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
       </div>
 
       <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
             <input 
@@ -249,7 +249,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
           </button>
           <button 
             onClick={() => setCurrentView('main')}
-            className="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all"
+            className="px-4 md:px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all"
           >
             Cancel
           </button>
@@ -262,7 +262,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm"
+      className="bg-surface-container-lowest p-4 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm"
     >
       <div className="flex items-center gap-4 mb-8">
         <button 
@@ -275,7 +275,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
       </div>
 
       <div className="space-y-6">
-        <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 flex items-center justify-between">
+        <div className="p-4 md:p-6 bg-primary/5 rounded-2xl border border-primary/10 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center text-white">
               <MapIcon className="w-6 h-6" />
@@ -319,13 +319,13 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
           ))}
         </div>
 
-        <div className="p-6 bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center">
+        <div className="p-4 md:p-6 bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center">
           <div className="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-3">
             <MapPin className="w-6 h-6 text-on-surface-variant" />
           </div>
           <h4 className="font-bold text-on-surface">Request New Beat</h4>
           <p className="text-xs text-on-surface-variant max-w-xs mt-1">Need to expand your territory? Request additional beat assignments from your manager.</p>
-          <button className="mt-4 px-6 py-2 bg-primary text-white font-bold text-xs rounded-lg shadow-md hover:opacity-90 transition-all">
+          <button className="mt-4 px-4 md:px-6 py-2 bg-primary text-white font-bold text-xs rounded-lg shadow-md hover:opacity-90 transition-all">
             Contact Manager
           </button>
         </div>
@@ -377,7 +377,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
         )}
       </AnimatePresence>
 
-      <div className="flex items-center justify-center gap-6 py-4">
+      <div className="flex items-center justify-center gap-4 md:gap-6 py-4">
         <button className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest hover:text-primary transition-colors flex items-center gap-1">
           <HelpCircle className="w-3 h-3" />
           Help Center

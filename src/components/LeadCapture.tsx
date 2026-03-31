@@ -98,10 +98,10 @@ export function LeadCapture() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
           {/* Left: Venue Context */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Store className="w-7 h-7 text-primary" />
@@ -128,7 +128,7 @@ export function LeadCapture() {
               </div>
             </div>
 
-            <div className="bg-primary-container p-6 rounded-2xl text-white shadow-lg relative overflow-hidden">
+            <div className="bg-primary-container p-4 md:p-6 rounded-2xl text-white shadow-lg relative overflow-hidden">
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
               <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                 <Target className="w-4 h-4" />
@@ -142,9 +142,9 @@ export function LeadCapture() {
 
           {/* Right: Lead Form */}
           <div className="lg:col-span-8">
-            <div className="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
               <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Customer Name</label>
                     <div className="relative">
@@ -169,7 +169,7 @@ export function LeadCapture() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Date of Event</label>
                     <div className="relative">
@@ -210,7 +210,7 @@ export function LeadCapture() {
                     <CheckCircle2 className="w-5 h-5" />
                     Submit Lead to CRM
                   </button>
-                  <button className="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
+                  <button className="px-4 md:px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
                     Discard
                   </button>
                 </div>
@@ -224,7 +224,7 @@ export function LeadCapture() {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <nav className="flex items-center gap-2 text-on-surface-variant text-[10px] uppercase tracking-widest mb-2 font-bold">
             <span>CRM Modules</span>
@@ -262,7 +262,7 @@ export function LeadCapture() {
 
       {/* Venue Listing */}
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-4 md:p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-xl font-bold">Select Venue to Capture Lead</h2>
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -285,11 +285,11 @@ export function LeadCapture() {
           <table className="w-full text-left min-w-[800px]">
             <thead className="bg-surface-container-low/50 text-on-surface-variant uppercase text-[10px] font-black tracking-widest sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4">Venue Details</th>
-                <th className="px-6 py-4">Location</th>
-                <th className="px-6 py-4">Manager</th>
-                <th className="px-6 py-4">Contact</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-4 md:px-6 py-4">Venue Details</th>
+                <th className="px-4 md:px-6 py-4">Location</th>
+                <th className="px-4 md:px-6 py-4">Manager</th>
+                <th className="px-4 md:px-6 py-4">Contact</th>
+                <th className="px-4 md:px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
@@ -299,7 +299,7 @@ export function LeadCapture() {
                   onClick={() => setSelectedVenue(venue)}
                   className="group hover:bg-surface-container-low transition-colors cursor-pointer"
                 >
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary">
                         <Store className="w-5 h-5" />
@@ -310,16 +310,16 @@ export function LeadCapture() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-medium text-on-surface">{venue.address}</p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-medium">{venue.manager}</p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-medium">{venue.contact}</p>
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-4 md:px-6 py-5 text-right">
                     <button className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-lg shadow-primary/10 group-hover:scale-105 transition-all">
                       Capture Lead
                     </button>

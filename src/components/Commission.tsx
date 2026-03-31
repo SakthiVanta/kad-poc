@@ -134,14 +134,14 @@ export function Commission() {
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-6 p-6 bg-tertiary/5 rounded-2xl border border-tertiary/10"
+          className="space-y-6 p-4 md:p-6 bg-tertiary/5 rounded-2xl border border-tertiary/10"
         >
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle2 className="w-5 h-5 text-tertiary" />
             <h4 className="text-sm font-bold text-tertiary uppercase tracking-wider">Log Collection Details</h4>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Amount Collected</label>
               <div className="relative">
@@ -192,7 +192,7 @@ export function Commission() {
 
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Upload Proof (Mandatory)</label>
-            <div className="border-2 border-dashed border-tertiary/30 rounded-2xl p-8 flex flex-col items-center justify-center hover:bg-tertiary/5 transition-colors cursor-pointer group">
+            <div className="border-2 border-dashed border-tertiary/30 rounded-2xl p-4 md:p-8 flex flex-col items-center justify-center hover:bg-tertiary/5 transition-colors cursor-pointer group">
               <UploadCloud className="w-10 h-10 text-tertiary opacity-30 group-hover:scale-110 group-hover:opacity-100 transition-all mb-2" />
               <p className="text-xs font-bold text-tertiary">Tap to capture or upload payment proof</p>
               <p className="text-[10px] text-on-surface-variant mt-1">Supports Image/PDF from mobile/tablet</p>
@@ -219,7 +219,7 @@ export function Commission() {
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-6 p-6 bg-primary/5 rounded-2xl border border-primary/10"
+          className="space-y-6 p-4 md:p-6 bg-primary/5 rounded-2xl border border-primary/10"
         >
           <div className="flex items-center gap-2 mb-2">
             <AlertCircle className="w-5 h-5 text-primary" />
@@ -249,7 +249,7 @@ export function Commission() {
           </div>
 
           {(disposition === 'Commission under follow-up' || disposition === 'Commission receivable AFC') && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Next Follow-up Date</label>
                 <input type="date" className="w-full bg-surface-container-low border-none rounded-xl py-3.5 px-4 font-medium focus:ring-2 ring-primary/20" />
@@ -302,10 +302,10 @@ export function Commission() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
           {/* Left: Record Intelligence */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
                   <User className="w-8 h-8 text-primary" />
@@ -358,7 +358,7 @@ export function Commission() {
 
           {/* Right: Action Form */}
           <div className="lg:col-span-8">
-            <div className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm">
               <div className="flex items-center justify-between mb-10">
                 <h3 className="text-xl font-bold">Collection Status</h3>
                 <div className="flex gap-1">
@@ -410,7 +410,7 @@ export function Commission() {
                       <CheckCircle2 className="w-5 h-5" />
                       Submit Commission Record
                     </button>
-                    <button className="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
+                    <button className="px-4 md:px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
                       Save Draft
                     </button>
                   </div>
@@ -425,7 +425,7 @@ export function Commission() {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <p className="text-on-surface-variant text-sm font-semibold uppercase tracking-widest mb-1">Financial Intelligence</p>
           <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">Commission Management</h1>
@@ -442,9 +442,9 @@ export function Commission() {
       </header>
 
       {/* Financial Overview */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
         {/* Wallet Card */}
-        <div className="bg-primary-container rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
+        <div className="bg-primary-container rounded-3xl p-4 md:p-8 text-white relative overflow-hidden shadow-2xl">
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl"></div>
           <div className="relative z-10">
             <div className="flex justify-between items-center mb-10">
@@ -475,8 +475,8 @@ export function Commission() {
         </div>
 
         {/* Quick Stats */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-tertiary/10 rounded-lg">
@@ -492,7 +492,7 @@ export function Commission() {
             </div>
           </div>
           
-          <div className="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
+          <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-primary/10 rounded-lg">
@@ -512,7 +512,7 @@ export function Commission() {
 
       {/* Commission Records Listing */}
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-4 md:p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-bold">Pending Commissions</h2>
             <span className="bg-primary/10 text-primary text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Action Required</span>
@@ -543,12 +543,12 @@ export function Commission() {
           <table className="w-full text-left min-w-[1000px]">
             <thead className="bg-surface-container-low/50 text-on-surface-variant uppercase text-[10px] font-black tracking-widest sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4">Customer & Venue</th>
-                <th className="px-6 py-4">Event Date</th>
-                <th className="px-6 py-4">Booking Value</th>
-                <th className="px-6 py-4">Commission Due</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-4 md:px-6 py-4">Customer & Venue</th>
+                <th className="px-4 md:px-6 py-4">Event Date</th>
+                <th className="px-4 md:px-6 py-4">Booking Value</th>
+                <th className="px-4 md:px-6 py-4">Commission Due</th>
+                <th className="px-4 md:px-6 py-4">Status</th>
+                <th className="px-4 md:px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
@@ -558,7 +558,7 @@ export function Commission() {
                   onClick={() => setSelectedRecord(record)}
                   className="group hover:bg-surface-container-low transition-colors cursor-pointer"
                 >
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary">
                         {record.customerName.charAt(0)}
@@ -569,19 +569,19 @@ export function Commission() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-bold text-on-surface">
                       {new Date(record.dateOfEvent).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
                     <p className="text-[10px] text-on-surface-variant uppercase font-bold">{record.eventType}</p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-bold">₹{record.bookingValue.toLocaleString()}</p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <p className="text-sm font-black text-primary">₹{record.commissionReceivable.toLocaleString()}</p>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <span className={cn(
                       "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider",
                       record.status === 'Due' ? "bg-primary/10 text-primary" : 
@@ -591,7 +591,7 @@ export function Commission() {
                       {record.status}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-4 md:px-6 py-5 text-right">
                     <button className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-lg shadow-primary/10 group-hover:scale-105 transition-all">
                       Process
                     </button>
@@ -605,7 +605,7 @@ export function Commission() {
 
       {/* Transaction History */}
       <div className="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden border border-outline-variant/10">
-        <div className="p-6 border-b border-surface-container-low flex items-center justify-between">
+        <div className="p-4 md:p-6 border-b border-surface-container-low flex items-center justify-between">
           <h3 className="text-xl font-extrabold text-on-surface">Settlement History</h3>
           <button className="text-xs font-bold text-primary uppercase tracking-widest">View All History</button>
         </div>
@@ -614,22 +614,22 @@ export function Commission() {
           <table className="w-full text-left">
             <thead className="bg-surface-container-low/50 text-on-surface-variant uppercase text-[10px] font-black tracking-widest">
               <tr>
-                <th className="px-8 py-5">TXN ID</th>
-                <th className="px-8 py-5">Venue</th>
-                <th className="px-8 py-5">Date</th>
-                <th className="px-8 py-5">Amount</th>
-                <th className="px-8 py-5">Status</th>
+                <th className="px-4 md:px-8 py-5">TXN ID</th>
+                <th className="px-4 md:px-8 py-5">Venue</th>
+                <th className="px-4 md:px-8 py-5">Date</th>
+                <th className="px-4 md:px-8 py-5">Amount</th>
+                <th className="px-4 md:px-8 py-5">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-surface-container-low">
               {transactions.map((txn) => (
                 <tr key={txn.id} className="hover:bg-surface transition-colors group cursor-pointer">
-                  <td className="px-8 py-6 text-sm font-bold text-on-surface-variant">{txn.id}</td>
-                  <td className="px-8 py-6">
+                  <td className="px-4 md:px-8 py-6 text-sm font-bold text-on-surface-variant">{txn.id}</td>
+                  <td className="px-4 md:px-8 py-6">
                     <p className="font-bold text-on-surface">{txn.venue}</p>
                   </td>
-                  <td className="px-8 py-6 text-sm font-medium text-on-surface-variant">{txn.date}</td>
-                  <td className="px-8 py-6">
+                  <td className="px-4 md:px-8 py-6 text-sm font-medium text-on-surface-variant">{txn.date}</td>
+                  <td className="px-4 md:px-8 py-6">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center">
                         <ArrowUpRight className="w-3 h-3" />
@@ -637,7 +637,7 @@ export function Commission() {
                       <span className="font-bold text-on-surface">{txn.amount}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-6">
+                  <td className="px-4 md:px-8 py-6">
                     <span className="px-3 py-1 text-[10px] font-black uppercase rounded-full tracking-wider bg-tertiary/10 text-tertiary">
                       {txn.status}
                     </span>

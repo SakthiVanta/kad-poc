@@ -162,7 +162,7 @@ export function NewListing() {
           </div>
           <button 
             onClick={() => { setView('create'); setActiveVendor(null); }}
-            className="px-6 py-3 bg-primary text-white font-black text-sm rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+            className="px-4 md:px-6 py-3 bg-primary text-white font-black text-sm rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             Create New Property
@@ -170,8 +170,8 @@ export function NewListing() {
         </header>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
             <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
               <Building2 className="w-7 h-7" />
             </div>
@@ -180,7 +180,7 @@ export function NewListing() {
               <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mt-0.5">Total Properties</p>
             </div>
           </div>
-          <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
+          <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
             <div className="w-14 h-14 bg-tertiary/10 text-tertiary rounded-2xl flex items-center justify-center">
               <ShieldCheck className="w-7 h-7" />
             </div>
@@ -189,7 +189,7 @@ export function NewListing() {
               <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mt-0.5">Approved</p>
             </div>
           </div>
-          <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
+          <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-4">
             <div className="w-14 h-14 bg-yellow-500/10 text-yellow-600 rounded-2xl flex items-center justify-center">
               <Clock className="w-7 h-7" />
             </div>
@@ -202,7 +202,7 @@ export function NewListing() {
 
         {/* All Properties Table */}
         <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-          <div className="px-6 py-5 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center justify-between">
+          <div className="px-4 md:px-6 py-5 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center justify-between">
             <h3 className="text-sm font-black uppercase tracking-widest text-on-surface flex items-center gap-2">
               <Building className="w-4 h-4 text-primary" />
               All Mandapams Directory
@@ -307,11 +307,11 @@ export function NewListing() {
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
         {/* LEFT COLUMN: VENDOR SELECTION */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden flex flex-col h-[70vh]">
-            <div className="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30 sticky top-0 z-10 flex items-center justify-between">
+            <div className="px-4 md:px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30 sticky top-0 z-10 flex items-center justify-between">
               <h3 className="text-sm font-black uppercase tracking-widest text-on-surface">Vendors</h3>
               <button 
                 onClick={() => setIsVendorModalOpen(true)}
@@ -371,7 +371,7 @@ export function NewListing() {
               <motion.div 
                 key="empty"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="h-[70vh] bg-surface-container-low/50 rounded-3xl border border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center p-8"
+                className="h-[70vh] bg-surface-container-low/50 rounded-3xl border border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center p-4 md:p-8"
               >
                 <div className="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mb-4">
                   <Building2 className="w-8 h-8 text-on-surface-variant opacity-50" />
@@ -388,7 +388,7 @@ export function NewListing() {
                 className="space-y-6"
               >
                 {/* Active Vendor Header Card */}
-                <div className="bg-primary-container p-6 rounded-3xl text-white shadow-lg relative overflow-hidden">
+                <div className="bg-primary-container p-4 md:p-6 rounded-3xl text-white shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
                   
                   <div className="relative z-10 flex items-start justify-between">
@@ -418,7 +418,7 @@ export function NewListing() {
 
                 {/* Mandapams Table */}
                 <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-                  <div className="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30">
+                  <div className="px-4 md:px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30">
                     <h3 className="text-sm font-black uppercase tracking-widest text-on-surface flex items-center gap-2">
                       <Building className="w-4 h-4 text-primary" />
                       Assigned Properties ({vendorMandapams.length})
@@ -507,7 +507,7 @@ export function NewListing() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }}
               className="relative w-full max-w-lg bg-surface-container-lowest rounded-[32px] shadow-2xl flex flex-col overflow-hidden"
             >
-              <div className="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+              <div className="p-4 md:p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-primary/10 text-primary rounded-xl"><UserPlus className="w-5 h-5" /></div>
                   <h2 className="text-xl font-black">Create New Vendor</h2>
@@ -515,7 +515,7 @@ export function NewListing() {
                 <button onClick={() => setIsVendorModalOpen(false)} className="p-2 hover:bg-surface-container-high rounded-full"><X className="w-5 h-5" /></button>
               </div>
               
-              <form onSubmit={handleCreateVendor} className="p-6 overflow-y-auto max-h-[70vh] custom-scrollbar space-y-5">
+              <form onSubmit={handleCreateVendor} className="p-4 md:p-6 overflow-y-auto max-h-[70vh] custom-scrollbar space-y-5">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Company / Individual Name *</label>
                   <input type="text" required value={vendorForm.name} onChange={(e) => setVendorForm({ ...vendorForm, name: e.target.value })} className="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-sm font-medium focus:ring-2 ring-primary/20" placeholder="e.g. Ramesh Kumaran" />
@@ -573,7 +573,7 @@ export function NewListing() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }}
               className="relative w-full max-w-4xl bg-surface-container-lowest rounded-[32px] shadow-2xl flex flex-col overflow-hidden max-h-[90vh]"
             >
-              <div className="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-primary-container text-white">
+              <div className="p-4 md:p-6 border-b border-outline-variant/10 flex justify-between items-center bg-primary-container text-white">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-white/20 rounded-xl"><Building className="w-6 h-6" /></div>
                   <div>
@@ -584,14 +584,14 @@ export function NewListing() {
                 <button onClick={() => setIsMandapamModalOpen(false)} className="p-2 hover:bg-white/20 rounded-full transition-colors"><X className="w-6 h-6" /></button>
               </div>
               
-              <form onSubmit={handleCreateMandapam} className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-surface">
+              <form onSubmit={handleCreateMandapam} className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 bg-surface">
                 
                 {/* Media Upload Section */}
                 <div className="mb-8">
                   <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-3 flex items-center gap-2">
                     <Camera className="w-4 h-4" /> Media Upload
                   </h4>
-                  <div className="border-2 border-dashed border-outline-variant/30 bg-surface-container-lowest rounded-2xl p-8 flex flex-col items-center justify-center text-center hover:border-primary/50 transition-colors cursor-pointer">
+                  <div className="border-2 border-dashed border-outline-variant/30 bg-surface-container-lowest rounded-2xl p-4 md:p-8 flex flex-col items-center justify-center text-center hover:border-primary/50 transition-colors cursor-pointer">
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
                       <UploadCloud className="w-8 h-8" />
                     </div>
