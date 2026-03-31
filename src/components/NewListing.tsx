@@ -150,7 +150,7 @@ export function NewListing() {
   // DASHBOARD VIEW
   if (view === 'dashboard') {
     return (
-      <div className="space-y-8 max-w-7xl mx-auto pb-10">
+      <div className="space-y-8 mx-auto pb-10">
         <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -279,7 +279,7 @@ export function NewListing() {
 
   // CREATE VIEW (Vendor Selection & Mandapam Creation)
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-10">
+    <div className="space-y-8 mx-auto pb-10">
       <header>
         <button
           onClick={() => setView('dashboard')}

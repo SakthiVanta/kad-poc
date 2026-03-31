@@ -95,7 +95,7 @@ export function BWGUpgradation() {
 
   if (selectedVenue) {
     return (
-      <div className="space-y-8 max-w-6xl mx-auto">
+      <div className="space-y-8 mx-auto">
         <header className="flex items-center gap-4">
           <button 
             onClick={() => { setSelectedVenue(null); setIsAgreeable(null); }}

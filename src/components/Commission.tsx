@@ -284,7 +284,7 @@ export function Commission() {
 
   if (selectedRecord) {
     return (
-      <div className="space-y-8 max-w-6xl mx-auto">
+      <div className="space-y-8 mx-auto">
         <header className="flex items-center gap-4">
           <button 
             onClick={() => { setSelectedRecord(null); setIsCollected(null); setDisposition(''); setPaymentMode(''); }}

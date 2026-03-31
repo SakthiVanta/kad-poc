@@ -20,7 +20,48 @@ import {
 import { cn } from '@/src/lib/utils';
 
 type ViewMode = 'dashboard' | 'select-mandapam' | 'calendar';
-type BlockType = 'morning' | 'evening' | 'full' | null;
+type BlockType = 'morning' | 'evening' | 'full' | 'mukurtham' | null;
+
+const getTypeColor = (type: BlockType) => {
+  if (type === 'morning') return "bg-rose-500/10 text-rose-500 border-rose-500/20";
+  if (type === 'evening') return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+  if (type === 'full') return "bg-purple-500/10 text-purple-500 border-purple-500/20";
+  if (type === 'mukurtham') return "bg-orange-500/10 text-orange-500 border-orange-500/20";
+  return "";
+};
+
+const getTypeLabel = (type: BlockType) => {
+  if (type === 'morning') return 'Morning Half';
+  if (type === 'evening') return 'Evening Half';
+  if (type === 'full') return 'Full Day';
+  if (type === 'mukurtham') return 'Mukurtham';
+  return '';
+};
+
+const getHoverClasses = (type: BlockType, isSelected: boolean) => {
+  if (isSelected) {
+    if (type === 'morning') return "border-rose-500 ring-4 ring-rose-500/20 shadow-lg scale-[1.02]";
+    if (type === 'evening') return "border-emerald-500 ring-4 ring-emerald-500/20 shadow-lg scale-[1.02]";
+    if (type === 'full') return "border-purple-500 ring-4 ring-purple-500/20 shadow-lg scale-[1.02]";
+    if (type === 'mukurtham') return "border-orange-600 ring-4 ring-orange-600/20 shadow-lg scale-[1.02]";
+    return "border-primary ring-4 ring-primary/20 shadow-lg scale-[1.02]";
+  }
+  
+  if (type === 'morning') return "border-outline-variant/10 hover:border-rose-500/50 bg-surface-container-low hover:bg-surface-container-high";
+  if (type === 'evening') return "border-outline-variant/10 hover:border-emerald-500/50 bg-surface-container-low hover:bg-surface-container-high";
+  if (type === 'full') return "border-outline-variant/10 hover:border-purple-500/50 bg-surface-container-low hover:bg-surface-container-high";
+  if (type === 'mukurtham') return "border-outline-variant/10 hover:border-orange-600/50 bg-surface-container-low hover:bg-surface-container-high";
+  
+  return "border-outline-variant/10 hover:border-primary/50 bg-surface-container-low hover:bg-surface-container-high";
+};
+
+const getHoverTextClasses = (type: BlockType) => {
+  if (type === 'morning') return "text-on-surface group-hover:text-rose-500";
+  if (type === 'evening') return "text-on-surface group-hover:text-emerald-500";
+  if (type === 'full') return "text-purple-500 group-hover:text-purple-600";
+  if (type === 'mukurtham') return "text-orange-600 group-hover:text-orange-700";
+  return "text-on-surface group-hover:text-primary";
+};
 
 interface BlockData {
   id: string; // Booking ID
@@ -130,7 +171,7 @@ export function BlockDate() {
   // ----------------------------------------------------------------------
   if (view === 'dashboard') {
     return (
-      <div className="space-y-8 max-w-7xl mx-auto pb-10">
+      <div className="space-y-8 mx-auto pb-10">
         <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -208,9 +249,9 @@ export function BlockDate() {
                         <td className="p-5">
                           <div className={cn(
                             "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest border",
-                            b.type === 'full' ? "bg-primary/10 text-primary border-primary/20" : "bg-secondary/10 text-secondary border-secondary/20"
+                            getTypeColor(b.type)
                           )}>
-                            {b.type === 'full' ? 'Full Day' : b.type === 'morning' ? 'Morning Half' : 'Evening Half'}
+                            {getTypeLabel(b.type)}
                           </div>
                         </td>
                         <td className="p-5 text-right">
@@ -241,7 +282,7 @@ export function BlockDate() {
   // ----------------------------------------------------------------------
   if (view === 'select-mandapam') {
     return (
-      <div className="space-y-8 max-w-4xl mx-auto pb-10">
+      <div className="space-y-8 mx-auto pb-10">
         <header>
           <button 
             onClick={() => setView('dashboard')}
@@ -304,7 +345,7 @@ export function BlockDate() {
   // VIEW 3: CALENDAR VIEW FOR SELECTED MANDAPAM
   // ----------------------------------------------------------------------
   return (
-    <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-8rem)]">
+    <div className="mx-auto flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-8rem)]">
       {/* LEFT: CALENDAR */}
       <div className="flex-1 space-y-6">
         <header>
@@ -343,20 +384,26 @@ export function BlockDate() {
           </div>
 
           {/* Legend */}
-          <div className="flex gap-6 mb-6">
+          <div className="flex flex-wrap gap-6 mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-gradient-to-t from-primary to-transparent opacity-30 border border-primary/20"></div>
+              <div className="w-4 h-4 rounded bg-gradient-to-b from-rose-500/40 via-rose-500/40 via-[30%] to-transparent border-t-2 border-rose-500"></div>
               <span className="text-xs font-bold text-on-surface-variant">Morning Half</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-gradient-to-b from-primary to-transparent opacity-30 border border-primary/20"></div>
+              <div className="w-4 h-4 rounded bg-gradient-to-t from-emerald-500/40 via-emerald-500/40 via-[30%] to-transparent border-b-2 border-emerald-500"></div>
               <span className="text-xs font-bold text-on-surface-variant">Evening Half</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-primary/20 border border-primary text-primary flex items-center justify-center">
-                <XCircle className="w-3 h-3" />
-              </div>
+              <div className="w-4 h-4 rounded bg-gradient-to-t from-purple-500/40 via-purple-500/40 via-[30%] to-transparent border-2 border-purple-500"></div>
               <span className="text-xs font-bold text-on-surface-variant">Full Day</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-gradient-to-t from-orange-600/40 via-orange-600/40 via-[30%] to-transparent border-2 border-orange-600"></div>
+              <span className="text-xs font-bold text-on-surface-variant">Mukurtham</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-surface-container-low border border-outline-variant/20"></div>
+              <span className="text-xs font-bold text-on-surface-variant">Available</span>
             </div>
           </div>
 
@@ -383,34 +430,48 @@ export function BlockDate() {
                   onClick={() => handleDayClick(day)}
                   className={cn(
                     "relative aspect-square rounded-2xl border-2 transition-all overflow-hidden group flex flex-col items-center justify-center",
-                    isSelected ? "border-primary ring-4 ring-primary/20 shadow-lg scale-[1.02]" : "border-outline-variant/10 hover:border-primary/50 bg-surface-container-low hover:bg-surface-container-high",
-                    b?.type === 'full' ? "bg-primary/5 border-primary/20" : ""
+                    getHoverClasses(b?.type || null, isSelected)
                   )}
                 >
                   <span className={cn(
                     "text-xl font-black z-10 transition-colors",
-                    b?.type === 'full' ? "text-primary" : "text-on-surface group-hover:text-primary"
+                    getHoverTextClasses(b?.type || null)
                   )}>
                     {day}
                   </span>
 
                   {/* Morning Block Visual */}
                   {b?.type === 'morning' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-primary/30 to-transparent border-b-4 border-primary"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-rose-500/20 via-rose-500/20 via-[30%] to-transparent border-t-4 border-rose-500 pointer-events-none rounded-xl"></div>
                   )}
 
                   {/* Evening Block Visual */}
                   {b?.type === 'evening' && (
-                    <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-primary/30 to-transparent border-t-4 border-primary"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 via-emerald-500/20 via-[30%] to-transparent border-b-4 border-emerald-500 pointer-events-none"></div>
                   )}
 
                   {/* Full Block Visual */}
                   {b?.type === 'full' && (
-                    <div className="absolute inset-x-0 bottom-2 flex justify-center text-primary">
-                      <div className="px-2 py-0.5 bg-primary/20 rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1">
-                        <CheckCircle2 className="w-2.5 h-2.5" /> Booked
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-purple-500/20 via-[30%] to-transparent border-4 border-purple-500 pointer-events-none rounded-xl"></div>
+                      <div className="absolute inset-x-0 bottom-2 flex justify-center text-purple-600 pointer-events-none">
+                        <div className="px-2 py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1 border border-purple-500/20 shadow-sm">
+                          <XCircle className="w-2.5 h-2.5" /> Blocked
+                        </div>
                       </div>
-                    </div>
+                    </>
+                  )}
+
+                  {/* Mukurtham Block Visual */}
+                  {b?.type === 'mukurtham' && (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-orange-600/20 via-[30%] to-transparent border-4 border-orange-600 pointer-events-none rounded-xl"></div>
+                      <div className="absolute inset-x-0 bottom-2 flex justify-center text-orange-600 pointer-events-none">
+                        <div className="px-2 py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1 border border-orange-500/20 shadow-sm">
+                          <CheckCircle2 className="w-2.5 h-2.5" /> Booked
+                        </div>
+                      </div>
+                    </>
                   )}
                 </button>
               );
@@ -442,9 +503,12 @@ export function BlockDate() {
             <div className="p-6 flex-1 overflow-y-auto custom-scrollbar">
               {currentBlock ? (
                 <div className="space-y-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-error/10 text-error rounded-full text-[10px] font-black uppercase tracking-widest border border-error/20">
-                    <XCircle className="w-4 h-4" />
-                    {currentBlock.type === 'full' ? 'Full Day Blocked' : currentBlock.type === 'morning' ? 'Morning Half Blocked' : 'Evening Half Blocked'}
+                  <div className={cn(
+                    "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border",
+                    getTypeColor(currentBlock.type)
+                  )}>
+                    {currentBlock.type === 'full' || currentBlock.type === 'mukurtham' ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
+                    {getTypeLabel(currentBlock.type)} Booking
                   </div>
 
                   <div className="p-5 bg-surface-container-low rounded-2xl border border-outline-variant/10 space-y-4">
@@ -497,13 +561,19 @@ export function BlockDate() {
                       {[
                         { id: 'morning', label: 'Morning Half', time: '06:00 AM - 02:00 PM' },
                         { id: 'evening', label: 'Evening Half', time: '03:00 PM - 11:00 PM' },
-                        { id: 'full', label: 'Full Day', time: '24 Hours' }
+                          { id: 'full', label: 'Full Day', time: '24 Hours' },
+                          { id: 'mukurtham', label: 'Mukurtham', time: 'Auspicious Only' }
                       ].map(slot => (
                         <label 
                           key={slot.id} 
                           className={cn(
                             "flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all",
-                            bookingForm.slot === slot.id ? "border-primary bg-primary/5 shadow-sm" : "border-outline-variant/10 bg-surface-container-low hover:border-primary/30"
+                            bookingForm.slot === slot.id ?
+                              (slot.id === 'morning' ? "border-rose-500 bg-rose-500/5 shadow-sm" :
+                                slot.id === 'evening' ? "border-emerald-500 bg-emerald-500/5 shadow-sm" :
+                                  slot.id === 'full' ? "border-purple-500 bg-purple-500/5 shadow-sm" :
+                                    "border-orange-500 bg-orange-500/5 shadow-sm")
+                              : "border-outline-variant/10 bg-surface-container-low hover:border-primary/30"
                           )}
                         >
                           <div className="flex items-center justify-between">
@@ -564,7 +634,7 @@ export function BlockDate() {
               <CalendarDays className="w-10 h-10 text-on-surface-variant opacity-50" />
             </div>
             <h3 className="text-xl font-black text-on-surface">Select a Date</h3>
-            <p className="text-sm font-medium text-on-surface-variant mt-2 max-w-[250px]">
+              <p className="text-sm font-medium text-on-surface-variant mt-2">
               Tap on any date in the calendar to view its booking details or block a new slot for {selectedMandapam?.name}.
             </p>
           </div>

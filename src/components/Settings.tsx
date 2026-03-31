@@ -193,7 +193,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
         <h2 className="text-2xl font-black">Personal Information</h2>
       </div>
 
-      <form className="space-y-6 max-w-2xl" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
@@ -334,7 +334,7 @@ export function Settings({ onOpenMap }: { onOpenMap: () => void }) {
   );
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
+    <div className="space-y-8 mx-auto">
       <header>
         <div className="flex items-center gap-2 mb-2">
           <SettingsIcon className="w-4 h-4 text-primary" />
