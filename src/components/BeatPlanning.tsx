@@ -740,7 +740,7 @@ export function BeatPlanning() {
             <div className="bg-surface-container-lowest rounded-2xl p-12 text-center border-2 border-dashed border-outline-variant/20">
               <Navigation className="w-12 h-12 text-on-surface-variant/20 mx-auto mb-4" />
               <h4 className="text-lg font-bold text-on-surface">No visits planned yet</h4>
-              <p className="text-sm text-on-surface-variant max-w-xs mx-auto mt-1">Add vendors from the Beat Management table to start optimizing your field route.</p>
+              <p className="text-sm text-on-surface-variant mx-auto mt-1">Add vendors from the Beat Management table to start optimizing your field route.</p>
             </div>
           ) : (
             <table className="w-full text-left border-separate border-spacing-y-1 min-w-[1200px]">

@@ -7,22 +7,29 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 
 // Fix for default marker icon
-const DefaultIcon = L.divIcon({
-  html: `
-    <div class="flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary drop-shadow-md">
-        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 15.006 4 10a8 8 0 0 1 16 0z"></path>
-        <circle cx="12" cy="10" r="3" fill="white" stroke="white"></circle>
-      </svg>
-    </div>
-  `,
-  className: 'bg-transparent',
-  iconSize: [24, 24],
-  iconAnchor: [12, 24],
-  popupAnchor: [0, -24]
-});
+const getMarkerIcon = (status?: string) => {
+  let colorClass = 'text-primary';
+  if (status === 'visited') colorClass = 'text-tertiary';
+  else if (status === 'pending') colorClass = 'text-amber-500';
+  else if (status === 'priority') colorClass = 'text-primary';
 
-L.Marker.prototype.options.icon = DefaultIcon;
+  return L.divIcon({
+    html: `
+      <div class="flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${colorClass} drop-shadow-md">
+          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 15.006 4 10a8 8 0 0 1 16 0z"></path>
+          <circle cx="12" cy="10" r="3" fill="white" stroke="white"></circle>
+        </svg>
+      </div>
+    `,
+    className: 'bg-transparent',
+    iconSize: [24, 24],
+    iconAnchor: [12, 24],
+    popupAnchor: [0, -24]
+  });
+};
+
+L.Marker.prototype.options.icon = getMarkerIcon();
 
 interface Venue {
   id: string;
@@ -43,7 +50,7 @@ interface Beat {
 
 const mockBeats: Beat[] = [
   {
-    id: 'C1',
+    id: 'B1',
     name: 'T Nagar',
     center: [13.0418, 80.2341],
     radius: 1500,
@@ -56,7 +63,7 @@ const mockBeats: Beat[] = [
     ]
   },
   {
-    id: 'C2',
+    id: 'B2',
     name: 'Adyar',
     center: [13.0012, 80.2565],
     radius: 1200,
@@ -68,7 +75,7 @@ const mockBeats: Beat[] = [
     ]
   },
   {
-    id: 'C3',
+    id: 'B3',
     name: 'Anna Nagar',
     center: [13.0850, 80.2101],
     radius: 1800,
@@ -80,7 +87,7 @@ const mockBeats: Beat[] = [
     ]
   },
   {
-    id: 'C4',
+    id: 'B4',
     name: 'Velachery',
     center: [12.9815, 80.2230],
     radius: 1400,
@@ -92,7 +99,7 @@ const mockBeats: Beat[] = [
     ]
   },
   {
-    id: 'C5',
+    id: 'B5',
     name: 'Mylapore',
     center: [13.0335, 80.2675],
     radius: 1100,
@@ -104,7 +111,7 @@ const mockBeats: Beat[] = [
     ]
   },
   {
-    id: 'C6',
+    id: 'B6',
     name: 'Nungambakkam',
     center: [13.0604, 80.2464],
     radius: 1300,
@@ -186,16 +193,25 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
               <div>
                 <h3 className="text-xl font-black tracking-tight">Beat Intelligence Map</h3>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Active Territory:</span>
-                  <select 
-                    value={selectedBeat.id}
-                    onChange={(e) => setSelectedBeat(mockBeats.find(b => b.id === e.target.value) || mockBeats[0])}
-                    className="bg-transparent border-none p-0 text-[10px] font-black text-primary uppercase tracking-widest focus:ring-0 cursor-pointer"
-                  >
-                    {mockBeats.map(beat => (
-                      <option key={beat.id} value={beat.id}>{beat.name} ({beat.id})</option>
-                    ))}
-                  </select>
+                  <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Active Beat:</span>
+                  <div className="relative">
+                    <select
+                      value={selectedBeat.id}
+                      onChange={(e) => setSelectedBeat(mockBeats.find(b => b.id === e.target.value) || mockBeats[0])}
+                      className="appearance-none bg-primary/10 hover:bg-primary/20 transition-colors border-none py-1.5 pl-3 pr-8 rounded-lg text-[10px] font-black text-primary uppercase tracking-widest focus:ring-0 cursor-pointer outline-none"
+                    >
+                      {mockBeats.map(beat => (
+                        <option key={beat.id} value={beat.id} className="bg-surface-container-lowest text-on-surface font-bold">
+                          {beat.name} ({beat.id})
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-primary">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,7 +260,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 center={selectedBeat.center} 
                 radius={100000} // Very large to cover visible area
                 pathOptions={{ 
-                  fillColor: '#6750A4', 
+                  fillColor: 'var(--primary)', 
                   fillOpacity: 0.03, 
                   color: 'transparent',
                   interactive: false
@@ -256,9 +272,9 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 center={selectedBeat.center} 
                 radius={selectedBeat.radius}
                 pathOptions={{ 
-                  fillColor: '#6750A4', 
+                  fillColor: 'var(--primary)', 
                   fillOpacity: 0.15, 
-                  color: '#6750A4', 
+                  color: 'var(--primary)', 
                   weight: 3,
                   dashArray: '10, 10',
                   lineCap: 'round'
@@ -271,7 +287,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 radius={selectedBeat.radius * 0.95}
                 pathOptions={{ 
                   fillColor: 'transparent',
-                  color: '#6750A4', 
+                  color: 'var(--primary)', 
                   weight: 1,
                   opacity: 0.3
                 }}
@@ -294,6 +310,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 <Marker 
                   key={venue.id} 
                   position={[venue.lat, venue.lng]}
+                  icon={getMarkerIcon(venue.status)}
                   eventHandlers={{
                     mouseover: () => setHoveredVenue(venue),
                     mouseout: () => setHoveredVenue(null),
@@ -305,7 +322,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                       <div className="flex items-center gap-2 mb-2">
                         <div className={cn(
                           "w-8 h-8 rounded-lg flex items-center justify-center text-white",
-                          venue.status === 'visited' ? "bg-secondary" : venue.status === 'priority' ? "bg-primary" : "bg-outline-variant"
+                          venue.status === 'visited' ? "bg-tertiary" : venue.status === 'priority' ? "bg-primary" : "bg-amber-500"
                         )}>
                           <Store className="w-4 h-4" />
                         </div>
@@ -352,7 +369,9 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                     <div className="flex justify-between items-start mb-4">
                       <div className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest",
-                        (clickedVenue || hoveredVenue)?.status === 'visited' ? "bg-secondary/10 text-secondary" : "bg-primary/10 text-primary"
+                        (clickedVenue || hoveredVenue)?.status === 'visited' ? "bg-tertiary/10 text-tertiary" :
+                          (clickedVenue || hoveredVenue)?.status === 'priority' ? "bg-primary/10 text-primary" :
+                            "bg-amber-500/10 text-amber-500"
                       )}>
                         {(clickedVenue || hoveredVenue)?.status}
                       </div>
@@ -384,16 +403,16 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           {/* Footer Stats */}
           <div className="p-4 bg-surface-container-low flex items-center justify-center gap-8 border-t border-outline-variant/10">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-secondary rounded-full"></div>
+              <div className="w-2 h-2 bg-tertiary rounded-full"></div>
               <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Visited: 12</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+              <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Pending: 25</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
               <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Priority: 5</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-outline-variant rounded-full"></div>
-              <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Pending: 25</span>
             </div>
           </div>
         </motion.div>
