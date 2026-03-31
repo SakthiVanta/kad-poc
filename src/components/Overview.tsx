@@ -28,6 +28,8 @@ import {
 } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
+import { useNavigate } from 'react-router-dom';
+import { VenueDetailModal } from './VenueDetailModal';
 
 const trafficData = [
   { name: 'MON', traffic: 4200 },
@@ -168,7 +170,16 @@ function TargetRow({
 }
 
 export function Overview() {
+  const navigate = useNavigate();
   const [selectedVenue, setSelectedVenue] = React.useState<typeof venues[0] | null>(null);
+  const [activeBeatIndex, setActiveBeatIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveBeatIndex((prev) => (prev + 1) % venues.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   const kpis = [
     { label: 'No. of Vendors', value: '312', icon: Users, color: 'text-primary' },
@@ -200,166 +211,11 @@ export function Overview() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
       {/* Venue Detail Modal */}
-      <AnimatePresence>
-        {selectedVenue && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-4 md:p-8">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedVenue(null)}
-              className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-4xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
-            >
-              {/* Modal Left: Visuals & Quick Info */}
-              <div className="w-full md:w-2/5 bg-primary-container p-4 md:p-8 text-white relative overflow-hidden flex flex-col">
-                <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-                <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-
-                <button
-                  onClick={() => setSelectedVenue(null)}
-                  className="absolute top-6 left-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors md:hidden"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div className="relative z-10 flex-1 flex flex-col">
-                  <div className="mb-8">
-                    <img
-                      src={selectedVenue.image}
-                      alt={selectedVenue.name}
-                      className="w-24 h-24 rounded-2xl object-cover shadow-2xl border-4 border-white/20 mb-6"
-                      referrerPolicy="no-referrer"
-                    />
-                    <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/30">
-                      Venue ID: {selectedVenue.id}
-                    </span>
-                    <h2 className="text-3xl font-black mt-4 leading-tight">{selectedVenue.name}</h2>
-                    <p className="text-white/70 text-sm mt-2 flex items-center gap-2">
-                      <MapPin className="w-4 h-4" />
-                      {selectedVenue.location}
-                    </p>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                        <History className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase opacity-50 tracking-widest">Last Visit</p>
-                        <p className="font-bold">{selectedVenue.lastVisit}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                        <CheckCircle2 className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase opacity-50 tracking-widest">Status</p>
-                        <p className="font-bold">{selectedVenue.status}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-auto pt-8">
-                    <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Traffic Trend</p>
-                    <div className="h-24 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={trafficData}>
-                          <defs>
-                            <linearGradient id="colorTraffic" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
-                              <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
-                            </linearGradient>
-                          </defs>
-                          <Area type="monotone" dataKey="traffic" stroke="#ffffff" fillOpacity={1} fill="url(#colorTraffic)" strokeWidth={2} />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Modal Right: Details & Actions */}
-              <div className="flex-1 p-4 md:p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-xl font-black text-on-surface tracking-tight">Venue Intelligence</h3>
-                  <button
-                    onClick={() => setSelectedVenue(null)}
-                    className="p-2 hover:bg-surface-container-low rounded-full transition-colors hidden md:block"
-                  >
-                    <X className="w-6 h-6 text-on-surface-variant" />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {[
-                    { label: 'Suggested', value: selectedVenue.suggested, icon: Lightbulb, color: 'text-primary' },
-                    { label: 'Booked', value: selectedVenue.booked, icon: CalendarCheck, color: 'text-primary' },
-                    { label: 'Collected', value: selectedVenue.commCollected, icon: Wallet, color: 'text-tertiary' },
-                    { label: 'Pending', value: selectedVenue.pendingComm, icon: Clock, color: selectedVenue.pendingComm > 0 ? 'text-error' : 'text-on-surface-variant' },
-                  ].map((stat, i) => (
-                    <div key={i} className="bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10">
-                      <div className="flex items-center gap-2 mb-1">
-                        <stat.icon className={cn("w-3 h-3", stat.color)} />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{stat.label}</span>
-                      </div>
-                      <p className="text-2xl font-black">{stat.value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-6 mb-10">
-                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-2">Venue Description</h4>
-                    <p className="text-sm text-on-surface-variant leading-relaxed">{selectedVenue.description}</p>
-                  </div>
-                  <div className="flex gap-4 md:gap-8">
-                    <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Manager</h4>
-                      <p className="text-sm font-bold">{selectedVenue.manager}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Contact</h4>
-                      <p className="text-sm font-bold">{selectedVenue.contact}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button className="flex items-center justify-center gap-2 py-4 bg-primary-container text-white rounded-xl font-black text-sm shadow-lg hover:shadow-primary-container/20 transition-all active:scale-95">
-                    <CalendarCheck className="w-4 h-4" />
-                    Log Visit
-                  </button>
-                  <button className="flex items-center justify-center gap-2 py-4 bg-surface-container-high text-on-surface rounded-xl font-black text-sm hover:bg-surface-container-highest transition-all active:scale-95">
-                    <Wallet className="w-4 h-4" />
-                    Collect Comm.
-                  </button>
-                  <button className="flex items-center justify-center gap-2 py-4 border-2 border-primary-container text-primary-container rounded-xl font-black text-sm hover:bg-primary-container/5 transition-all active:scale-95">
-                    <TrendingUp className="w-4 h-4" />
-                    Upgrade BWG
-                  </button>
-                  <button className="flex items-center justify-center gap-2 py-4 bg-on-surface text-surface-container-lowest rounded-xl font-black text-sm hover:opacity-90 transition-all active:scale-95">
-                    <ExternalLink className="w-4 h-4" />
-                    View on Web
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
+      <VenueDetailModal venue={selectedVenue} onClose={() => setSelectedVenue(null)} />
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="col-span-1 lg:col-span-3 order-1 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <p className="text-on-surface-variant text-sm font-semibold uppercase tracking-widest mb-1">Field Intelligence Overview</p>
           <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">Executive Dashboard</h1>
@@ -378,7 +234,7 @@ export function Overview() {
       </div>
 
       {/* KPI Grid — 5 metrics */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4  md:gap-6">
+      <div className="col-span-1 lg:col-span-3 order-3 lg:order-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
         {kpis.map((kpi, i) => (
           <motion.div
             key={i}
@@ -398,10 +254,9 @@ export function Overview() {
         ))}
       </div>
 
-      {/* Mid Section: Analytics and Active Venue */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
-        <div className="lg:col-span-2 bg-surface-container-lowest p-4 md:p-8 rounded-2xl shadow-sm">
-          <div className="flex justify-between items-center mb-8">
+      {/* Target vs Achieved */}
+      <div className="col-span-1 lg:col-span-2 order-4 lg:order-3 bg-surface-container-lowest p-2 md:p-4 rounded-2xl shadow-sm">
+        <div className="flex justify-between items-center">
             <div>
               <h3 className="text-xl font-extrabold text-on-surface tracking-tight">Target vs Achieved</h3>
               <p className="text-on-surface-variant text-sm font-medium">Targets set by your manager</p>
@@ -411,7 +266,7 @@ export function Overview() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
             {targetRows.map((row) => (
               <TargetRow
                 // key={row.key}
@@ -436,40 +291,64 @@ export function Overview() {
           </div>
         </div>
 
-        <div className="bg-primary-container p-4 md:p-8 rounded-2xl shadow-xl text-white flex flex-col justify-between overflow-hidden relative">
+      {/* Active Beat */}
+      <div className="col-span-1 lg:col-span-1 order-2 lg:order-4 bg-primary-container p-4 md:p-6 rounded-2xl shadow-xl text-white flex flex-col justify-between overflow-hidden relative min-h-[300px]">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="relative z-10">
+        <div className="relative z-10 flex flex-col h-full">
             <div className="flex justify-between items-start mb-6">
               <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold border border-white/30">Active Beat</span>
               <TrendingUp className="w-5 h-5 text-white" />
             </div>
-            <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">Venue ID: 5065</p>
-            <h2 className="text-2xl font-black mb-4">The Grand Hall</h2>
-            <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-white/60" />
-                <div className="text-sm">
-                  <p className="text-white/50 font-medium">Last Visit</p>
-                  <p className="font-bold">18-Mar-2026</p>
+
+          <div className="relative flex-1 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeBeatIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="w-full"
+              >
+                <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">Venue ID: {venues[activeBeatIndex].id}</p>
+                <h2 className="text-2xl font-black mb-4 truncate">{venues[activeBeatIndex].name}</h2>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-white/60" />
+                    <div className="text-sm">
+                      <p className="text-white/50 font-medium">Last Visit</p>
+                      <p className="font-bold">{venues[activeBeatIndex].lastVisit}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <TrendingUp className="w-5 h-5 text-white/60" />
-                <div className="text-sm">
-                  <p className="text-white/50 font-medium">Location Precision</p>
-                  <p className="font-bold">98% System Verified</p>
-                </div>
-              </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-auto relative z-10">
+            <button
+              onClick={() => setSelectedVenue(venues[activeBeatIndex] as any)}
+              className="w-full py-4 bg-white text-primary-container font-black rounded-xl hover:bg-surface-container-lowest transition-all transform hover:-translate-y-1 shadow-lg">
+              View Complete Logs
+            </button>
+
+            <div className="flex justify-center gap-2 mt-4">
+              {venues.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={cn(
+                    "w-2 h-2 rounded-full transition-all duration-300",
+                    idx === activeBeatIndex ? "bg-white w-6" : "bg-white/30"
+                  )}
+                />
+              ))}
             </div>
           </div>
-          <button className="relative z-10 w-full py-4 bg-white text-primary-container font-black rounded-xl hover:bg-surface-container-lowest transition-all transform hover:-translate-y-1">
-            View Complete Logs
-          </button>
         </div>
       </div>
 
       {/* Venue Table */}
-      <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+      <div className="col-span-1 lg:col-span-3 order-5 lg:order-5 bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
         <div className="p-4 md:p-6 border-b border-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h3 className="text-xl font-extrabold text-on-surface">Venue Performance Dashboard</h3>

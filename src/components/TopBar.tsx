@@ -68,7 +68,7 @@ export function TopBar({ onOpenMap, onOpenSidebar }: { onOpenMap: () => void, on
 
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant"
+              className="hidden md:block p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant"
               title="Settings"
             >
               <SettingsIcon className="w-5 h-5" />

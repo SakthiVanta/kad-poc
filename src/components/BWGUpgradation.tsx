@@ -311,12 +311,12 @@ export function BWGUpgradation() {
           <p className="text-on-surface-variant text-sm mt-1">Identify and upgrade high-performing venues to BWG Premium status.</p>
         </div>
         
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary px-5 py-2.5 rounded-full text-sm font-black uppercase tracking-wider flex items-center gap-2">
             <Zap className="w-4 h-4 fill-primary" />
             Premium Logic Active
           </div>
-        </div>
+        </div> */}
       </header>
 
       {/* Stats */}
