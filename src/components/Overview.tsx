@@ -1,11 +1,10 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  Lightbulb, 
-  CalendarCheck, 
-  Wallet, 
-  Clock, 
-  AlertCircle,
+import {
+  TrendingUp,
+  Lightbulb,
+  CalendarCheck,
+  Wallet,
+  Clock,
   Download,
   ChevronDown,
   ChevronRight,
@@ -14,31 +13,30 @@ import {
   MapPin,
   ExternalLink,
   History,
-  CheckCircle2
+  CheckCircle2,
+  Users,
+  Building2,
+  ShieldCheck,
+  ShieldOff,
+  Map,
+  Target
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
   ResponsiveContainer,
-  Cell,
   AreaChart,
   Area
 } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 
-const data = [
-  { name: 'MON', value: 40, traffic: 4200 },
-  { name: 'TUE', value: 65, traffic: 5100 },
-  { name: 'WED', value: 45, traffic: 3800 },
-  { name: 'THU', value: 85, traffic: 7200 },
-  { name: 'FRI', value: 55, traffic: 5900 },
-  { name: 'SAT', value: 30, traffic: 3100 },
-  { name: 'SUN', value: 75, traffic: 6800 },
+const trafficData = [
+  { name: 'MON', traffic: 4200 },
+  { name: 'TUE', traffic: 5100 },
+  { name: 'WED', traffic: 3800 },
+  { name: 'THU', traffic: 7200 },
+  { name: 'FRI', traffic: 5900 },
+  { name: 'SAT', traffic: 3100 },
+  { name: 'SUN', traffic: 6800 },
 ];
 
 const venues = [
@@ -92,8 +90,114 @@ const venues = [
   }
 ];
 
+// Targets set by managers — read-only in this portal
+const targets = {
+  newListings: 50,
+  upgrades: 30,
+  commissionCollection: 500000,
+};
+
+const achieved = {
+  newListings: 38,
+  upgrades: 22,
+  commissionCollection: 420000,
+};
+
+function ProgressBar({ value, max }: { value: number; max: number }) {
+  const pct = Math.min(100, max > 0 ? Math.round((value / max) * 100) : 0);
+  const met = pct >= 100;
+  return (
+    <div className="w-full h-2 bg-surface-container-low rounded-full overflow-hidden">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${pct}%` }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className={cn('h-full rounded-full', met ? 'bg-tertiary' : 'bg-primary-container')}
+      />
+    </div>
+  );
+}
+
+function TargetRow({
+  label,
+  icon: Icon,
+  achievedVal,
+  targetVal,
+  formatValue,
+}: {
+  label: string;
+  icon: React.ElementType;
+  achievedVal: number;
+  targetVal: number;
+  formatValue: (v: number) => string;
+}) {
+  const pct = Math.min(100, targetVal > 0 ? Math.round((achievedVal / targetVal) * 100) : 0);
+  const met = achievedVal >= targetVal;
+
+  return (
+    <div className="bg-surface-container-low/60 rounded-2xl p-5 flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-primary-container/10">
+            <Icon className="w-4 h-4 text-primary" />
+          </div>
+          <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant">{label}</span>
+        </div>
+        <span className={cn(
+          'text-[10px] font-black px-2 py-0.5 rounded-full',
+          met ? 'bg-tertiary/10 text-tertiary' : 'bg-surface-container text-on-surface-variant'
+        )}>
+          {pct}%
+        </span>
+      </div>
+
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-2xl font-black text-on-surface leading-none">{formatValue(achievedVal)}</p>
+          <p className="text-[10px] text-on-surface-variant mt-1">Achieved</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm font-black text-on-surface-variant">{formatValue(targetVal)}</p>
+          <p className="text-[10px] text-on-surface-variant mt-1">Target</p>
+        </div>
+      </div>
+
+      <ProgressBar value={achievedVal} max={targetVal} />
+    </div>
+  );
+}
+
 export function Overview() {
   const [selectedVenue, setSelectedVenue] = React.useState<typeof venues[0] | null>(null);
+
+  const kpis = [
+    { label: 'No. of Vendors', value: '312', icon: Users, color: 'text-primary' },
+    { label: 'No. of Halls', value: '248', icon: Building2, color: 'text-primary' },
+    { label: 'BWG Promise', value: '186', icon: ShieldCheck, color: 'text-tertiary' },
+    { label: 'Non BWG Promise', value: '62', icon: ShieldOff, color: 'text-error' },
+    { label: 'No. of Beats', value: '14', icon: Map, color: 'text-primary' },
+  ];
+
+  const targetRows = [
+    {
+      key: 'newListings' as const,
+      label: 'New Listings',
+      icon: Lightbulb,
+      formatValue: (v: number) => Math.round(v).toString(),
+    },
+    {
+      key: 'upgrades' as const,
+      label: 'Upgrades',
+      icon: TrendingUp,
+      formatValue: (v: number) => Math.round(v).toString(),
+    },
+    {
+      key: 'commissionCollection' as const,
+      label: 'Commission Collection',
+      icon: Wallet,
+      formatValue: (v: number) => v >= 100000 ? `₹${(v / 100000).toFixed(1)}L` : `₹${(v / 1000).toFixed(0)}K`,
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -101,25 +205,25 @@ export function Overview() {
       <AnimatePresence>
         {selectedVenue && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedVenue(null)}
               className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-4xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
             >
-              {/* Modal Left: Visuals & Quick Info */}
+              {/* Modal Left */}
               <div className="w-full md:w-2/5 bg-primary-container p-8 text-white relative overflow-hidden flex flex-col">
                 <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-                
-                <button 
+
+                <button
                   onClick={() => setSelectedVenue(null)}
                   className="absolute top-6 left-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors md:hidden"
                 >
@@ -128,9 +232,9 @@ export function Overview() {
 
                 <div className="relative z-10 flex-1 flex flex-col">
                   <div className="mb-8">
-                    <img 
-                      src={selectedVenue.image} 
-                      alt={selectedVenue.name} 
+                    <img
+                      src={selectedVenue.image}
+                      alt={selectedVenue.name}
                       className="w-24 h-24 rounded-2xl object-cover shadow-2xl border-4 border-white/20 mb-6"
                       referrerPolicy="no-referrer"
                     />
@@ -169,7 +273,7 @@ export function Overview() {
                     <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Traffic Trend</p>
                     <div className="h-24 w-full">
                       <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={data}>
+                        <AreaChart data={trafficData}>
                           <defs>
                             <linearGradient id="colorTraffic" x1="0" y1="0" x2="0" y2="1">
                               <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3}/>
@@ -184,11 +288,11 @@ export function Overview() {
                 </div>
               </div>
 
-              {/* Modal Right: Details & Actions */}
+              {/* Modal Right */}
               <div className="flex-1 p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
                 <div className="flex justify-between items-center mb-8">
                   <h3 className="text-xl font-black text-on-surface tracking-tight">Venue Intelligence</h3>
-                  <button 
+                  <button
                     onClick={() => setSelectedVenue(null)}
                     className="p-2 hover:bg-surface-container-low rounded-full transition-colors hidden md:block"
                   >
@@ -253,7 +357,8 @@ export function Overview() {
           </div>
         )}
       </AnimatePresence>
-      {/* Header Section */}
+
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <p className="text-on-surface-variant text-sm font-semibold uppercase tracking-widest mb-1">Field Intelligence Overview</p>
@@ -272,78 +377,67 @@ export function Overview() {
         </div>
       </div>
 
-      {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { label: 'Suggested Count', value: '1,248', trend: '+12%', icon: Lightbulb, color: 'text-primary' },
-          { label: 'Booked Count', value: '856', trend: '+8.4%', icon: CalendarCheck, color: 'text-primary' },
-          { label: 'Commission Collected', value: '₹4.2M', trend: '+21%', icon: Wallet, color: 'text-primary' },
-          { label: 'Pending Commissions', value: '₹680K', trend: 'Critical', icon: Clock, color: 'text-error', isCritical: true },
-        ].map((kpi, i) => (
-          <motion.div 
+      {/* KPI Grid — 5 metrics */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {kpis.map((kpi, i) => (
+          <motion.div
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-b-4 border-primary/20"
+            transition={{ delay: i * 0.08 }}
+            className="bg-surface-container-lowest p-5 rounded-xl shadow-sm border-b-4 border-primary/20 flex flex-col gap-3"
           >
-            <div className="flex justify-between items-start mb-4">
-              <div className="p-2 bg-primary-container/10 rounded-lg">
-                <kpi.icon className={cn("w-5 h-5", kpi.color)} />
-              </div>
-              <span className={cn(
-                "font-bold text-xs flex items-center gap-1 px-2 py-1 rounded-full",
-                kpi.isCritical ? "text-error bg-error/10" : "text-tertiary bg-tertiary/10"
-              )}>
-                {kpi.isCritical ? <AlertCircle className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
-                {kpi.trend}
-              </span>
+            <div className="p-2 bg-primary-container/10 rounded-lg w-fit">
+              <kpi.icon className={cn('w-5 h-5', kpi.color)} />
             </div>
-            <p className="text-on-surface-variant text-xs font-bold uppercase tracking-wider">{kpi.label}</p>
-            <h3 className="text-3xl font-black mt-1">{kpi.value}</h3>
+            <div>
+              <p className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider leading-tight">{kpi.label}</p>
+              <h3 className="text-3xl font-black mt-1 text-on-surface">{kpi.value}</h3>
+            </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Mid Section: Analytics and Active Venue */}
+      {/* Mid Section: Target vs Achieved + Active Beat */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Target vs Achieved — read-only */}
         <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl shadow-sm">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-xl font-extrabold text-on-surface tracking-tight">Website Traffic Analytics</h3>
-              <p className="text-on-surface-variant text-sm font-medium">Monitoring BWG referral engagement</p>
+              <h3 className="text-xl font-extrabold text-on-surface tracking-tight">Target vs Achieved</h3>
+              <p className="text-on-surface-variant text-sm font-medium">Targets set by your manager</p>
             </div>
-            <div className="flex gap-2">
-              <button className="px-3 py-1 rounded-full text-xs font-bold bg-primary-container text-white">Views</button>
-              <button className="px-3 py-1 rounded-full text-xs font-bold text-on-surface-variant hover:bg-surface-container transition-colors">Conversions</button>
+            <div className="p-2 bg-primary-container/10 rounded-lg">
+              <Target className="w-5 h-5 text-primary" />
             </div>
           </div>
-          
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--outline-variant)" opacity={0.2} />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 10, fontWeight: 700, fill: 'var(--on-surface-variant)' }} 
-                />
-                <YAxis hide />
-                <Tooltip 
-                  cursor={{ fill: 'transparent' }} 
-                  contentStyle={{ backgroundColor: 'var(--surface-container-lowest)', borderColor: 'var(--outline-variant)', color: 'var(--on-surface)' }}
-                />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === 3 ? 'var(--color-primary-container)' : 'var(--color-primary-container)33'} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {targetRows.map((row) => (
+              <TargetRow
+                key={row.key}
+                label={row.label}
+                icon={row.icon}
+                achievedVal={achieved[row.key]}
+                targetVal={targets[row.key]}
+                formatValue={row.formatValue}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-6 mt-6 pt-4 border-t border-outline-variant/10">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-primary-container" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">In Progress</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-tertiary" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Target Met</span>
+            </div>
           </div>
         </div>
 
+        {/* Active Beat card */}
         <div className="bg-primary-container p-8 rounded-2xl shadow-xl text-white flex flex-col justify-between overflow-hidden relative">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
           <div className="relative z-10">
@@ -376,7 +470,7 @@ export function Overview() {
         </div>
       </div>
 
-      {/* Venue Table Section */}
+      {/* Venue Table */}
       <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
         <div className="p-6 border-b border-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
@@ -385,9 +479,9 @@ export function Overview() {
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Search venues..." 
+              <input
+                type="text"
+                placeholder="Search venues..."
                 className="bg-surface-container-low border-none rounded-lg text-sm font-semibold pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 w-64"
               />
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
@@ -419,8 +513,8 @@ export function Overview() {
             </thead>
             <tbody className="divide-y-4 divide-surface">
               {venues.map((venue) => (
-                <tr 
-                  key={venue.id} 
+                <tr
+                  key={venue.id}
                   onClick={() => setSelectedVenue(venue)}
                   className="hover:bg-surface transition-colors cursor-pointer group"
                 >
