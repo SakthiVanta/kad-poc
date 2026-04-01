@@ -2,7 +2,6 @@ import React from 'react';
 import {
   TrendingUp,
   Lightbulb,
-  CalendarCheck,
   Wallet,
   Clock,
   Download,
@@ -30,6 +29,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { VenueDetailModal } from './VenueDetailModal';
+import { DateRangePicker } from './DateRangePicker';
 
 const trafficData = [
   { name: 'MON', traffic: 4200 },
@@ -221,11 +221,9 @@ export function Overview() {
           <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">Executive Dashboard</h1>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-surface-container-low shadow-sm rounded-lg px-4 py-2 text-sm font-semibold text-on-surface-variant cursor-pointer hover:bg-surface-container transition-colors">
-            <CalendarCheck className="w-4 h-4 mr-2" />
-            Mar 01 - Mar 31, 2026
-            <ChevronDown className="w-4 h-4 ml-2" />
-          </div>
+          <DateRangePicker 
+            onChange={(range) => console.log('Selected Range:', range)} 
+          />
           <button className="bg-primary-container text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 shadow-md hover:opacity-90 transition-all">
             <Download className="w-4 h-4" />
             Export
