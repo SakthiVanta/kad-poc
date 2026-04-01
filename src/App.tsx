@@ -16,6 +16,7 @@ import { Settings } from './components/Settings';
 import { BeatMap } from './components/BeatMap';
 import { NewListing } from './components/NewListing';
 import { BlockDate } from './components/BlockDate';
+import { VenueProfile } from './components/VenueProfile';
 import { Login } from './components/Login';
 
 const AppContent: React.FC = () => {
@@ -45,6 +46,7 @@ const AppContent: React.FC = () => {
               <Route path="/bwg" element={<BWGUpgradation />} />
               <Route path="/lead-capture" element={<LeadCapture />} />
               <Route path="/settings" element={<Settings onOpenMap={() => setIsMapOpen(true)} />} />
+              <Route path="/venue/:id" element={<VenueProfile />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
