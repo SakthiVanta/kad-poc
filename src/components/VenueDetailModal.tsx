@@ -1,16 +1,11 @@
 import React from 'react';
 import { TrendingUp, Lightbulb, CalendarCheck, Wallet, Clock, X, MapPin, ExternalLink, History, CheckCircle2 } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, Cell, AreaChart, Area } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useNavigate } from 'react-router-dom';
 
-const trafficData = [
-  { name: 'MON', traffic: 4200 }, { name: 'TUE', traffic: 5100 },
-  { name: 'WED', traffic: 3800 }, { name: 'THU', traffic: 7200 },
-  { name: 'FRI', traffic: 5900 }, { name: 'SAT', traffic: 3100 },
-  { name: 'SUN', traffic: 6800 },
-];
+import { trafficData } from '../data/mockData';
 
 export function VenueDetailModal({ venue, onClose }: { venue: any, onClose: () => void }) {
   const navigate = useNavigate();
@@ -51,14 +46,22 @@ export function VenueDetailModal({ venue, onClose }: { venue: any, onClose: () =
                     <p className="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Traffic Trend</p>
                     <div className="h-24 w-full">
                       <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={trafficData}>
+                        <AreaChart data={trafficData} margin={{ top: 5, right: 5, left: 5, bottom: 0 }}>
                           <defs>
-                            <linearGradient id="colorTraffic" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
+                            <linearGradient id="colorTrafficModal" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#ffffff" stopOpacity={0.4} />
                               <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
                             </linearGradient>
                           </defs>
-                          <Area type="monotone" dataKey="traffic" stroke="#ffffff" fillOpacity={1} fill="url(#colorTraffic)" strokeWidth={2} />
+                          <Area 
+                            type="monotone" 
+                            dataKey="traffic" 
+                            stroke="#ffffff" 
+                            strokeWidth={3} 
+                            fillOpacity={1} 
+                            fill="url(#colorTrafficModal)"
+                            activeDot={{ r: 4, strokeWidth: 0, fill: '#ffffff' }}
+                          />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -103,7 +106,13 @@ export function VenueDetailModal({ venue, onClose }: { venue: any, onClose: () =
                   <button onClick={() => navigate('/general-visit')} className="flex items-center justify-center gap-2 py-4 bg-primary-container text-white rounded-xl font-black text-sm shadow-lg hover:shadow-primary-container/20 transition-all active:scale-95"><CalendarCheck className="w-4 h-4" />Log Visit</button>
                   <button onClick={() => navigate('/commission')} className="flex items-center justify-center gap-2 py-4 bg-surface-container-high text-on-surface rounded-xl font-black text-sm hover:bg-surface-container-highest transition-all active:scale-95"><Wallet className="w-4 h-4" />Collect Comm.</button>
                   <button onClick={() => navigate('/bwg')} className="flex items-center justify-center gap-2 py-4 border-2 border-primary-container text-primary-container rounded-xl font-black text-sm hover:bg-primary-container/5 transition-all active:scale-95"><TrendingUp className="w-4 h-4" />Upgrade BWG</button>
-                  <button className="flex items-center justify-center gap-2 py-4 bg-on-surface text-surface-container-lowest rounded-xl font-black text-sm hover:opacity-90 transition-all active:scale-95"><ExternalLink className="w-4 h-4" />View Details</button>
+                  <button 
+                    onClick={() => { onClose(); navigate(`/venue/${venue.id}`); }} 
+                    className="flex items-center justify-center gap-2 py-4 bg-on-surface text-surface-container-lowest rounded-xl font-black text-sm hover:opacity-90 transition-all active:scale-95"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    View Details
+                  </button>
                 </div>
               </div>
             </motion.div>

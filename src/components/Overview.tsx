@@ -28,69 +28,9 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { venues, trafficData } from '../data/mockData';
 import { VenueDetailModal } from './VenueDetailModal';
 import { DateRangePicker } from './DateRangePicker';
-
-const trafficData = [
-  { name: 'MON', traffic: 4200 },
-  { name: 'TUE', traffic: 5100 },
-  { name: 'WED', traffic: 3800 },
-  { name: 'THU', traffic: 7200 },
-  { name: 'FRI', traffic: 5900 },
-  { name: 'SAT', traffic: 3100 },
-  { name: 'SUN', traffic: 6800 },
-];
-
-const venues = [
-  {
-    id: '5065',
-    name: 'The Grand Hall',
-    location: 'Central Plaza, Hub 4',
-    lastVisit: '18-Mar-2026',
-    suggested: 4,
-    booked: 3,
-    commCollected: 2,
-    pendingComm: 1,
-    traffic: '56,000',
-    status: 'Yes',
-    image: 'https://picsum.photos/seed/hall/100/100',
-    description: 'A premium luxury hall suitable for corporate events and grand weddings. Features state-of-the-art acoustics and a dedicated catering wing.',
-    manager: 'Rahul Sharma',
-    contact: '+91 98765 43210'
-  },
-  {
-    id: '5068',
-    name: 'Emerald Banquet',
-    location: 'Green Park, West Wing',
-    lastVisit: '16-Mar-2026',
-    suggested: 3,
-    booked: 2,
-    commCollected: 1,
-    pendingComm: 1,
-    traffic: '42,500',
-    status: 'Partial',
-    image: 'https://picsum.photos/seed/banquet/100/100',
-    description: 'Eco-friendly banquet space with a focus on natural lighting and sustainable event management.',
-    manager: 'Priya Patel',
-    contact: '+91 87654 32109'
-  },
-  {
-    id: '4921',
-    name: 'Royal Residency',
-    location: 'Old Town Square',
-    lastVisit: '14-Mar-2026',
-    suggested: 6,
-    booked: 5,
-    commCollected: 5,
-    pendingComm: 0,
-    traffic: '68,200',
-    status: 'No',
-    image: 'https://picsum.photos/seed/residency/100/100',
-    description: 'Heritage residency offering a classic old-world charm combined with modern amenities.',
-    manager: 'Vikram Singh',
-    contact: '+91 76543 21098'
-  }
-];
 
 // Targets set by managers — read-only in this portal
 const targets = {
