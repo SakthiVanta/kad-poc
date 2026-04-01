@@ -185,7 +185,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           className="relative w-full h-full md:h-[90vh] max-w-6xl bg-surface-container-lowest md:rounded-[40px] shadow-2xl overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="p-6 border-b border-outline-variant/10 flex items-center justify-between bg-surface-container-lowest z-10">
+          <div className="p-4 md:p-6 border-b border-outline-variant/10 flex items-center justify-between bg-surface-container-lowest z-10">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/10 rounded-2xl text-primary">
                 <MapPin className="w-6 h-6" />
@@ -365,7 +365,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                     clickedVenue ? "ring-2 ring-primary/20" : ""
                   )}
                 >
-                  <div className="p-6">
+                  <div className="p-4 md:p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest",
@@ -401,7 +401,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
           </div>
 
           {/* Footer Stats */}
-          <div className="p-4 bg-surface-container-low flex items-center justify-center gap-8 border-t border-outline-variant/10">
+          <div className="p-4 bg-surface-container-low flex items-center justify-center gap-4 md:gap-8 border-t border-outline-variant/10">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-tertiary rounded-full"></div>
               <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Visited: 12</span>

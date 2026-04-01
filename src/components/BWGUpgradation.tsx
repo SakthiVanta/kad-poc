@@ -113,10 +113,10 @@ export function BWGUpgradation() {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
           {/* Left: Venue Intelligence */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Zap className="w-7 h-7 text-primary fill-primary" />
@@ -150,7 +150,7 @@ export function BWGUpgradation() {
               </div>
             </div>
 
-            <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
               <h3 className="text-sm font-bold mb-4 flex items-center gap-2 uppercase tracking-widest">
                 <TrendingUp className="w-4 h-4 text-primary" />
                 Performance Metrics
@@ -176,7 +176,7 @@ export function BWGUpgradation() {
 
           {/* Right: Upgradation Form */}
           <div className="lg:col-span-8">
-            <div className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm">
+            <div className="bg-surface-container-lowest p-4 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm">
               <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-2">
@@ -226,7 +226,7 @@ export function BWGUpgradation() {
                         exit={{ opacity: 0, height: 0 }}
                         className="space-y-6 overflow-hidden"
                       >
-                        <div className="p-6 bg-tertiary/5 rounded-2xl border border-tertiary/10 space-y-6">
+                        <div className="p-4 md:p-6 bg-tertiary/5 rounded-2xl border border-tertiary/10 space-y-6">
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
                               <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Agreed Commission Override (%)</label>
@@ -264,7 +264,7 @@ export function BWGUpgradation() {
                         exit={{ opacity: 0, height: 0 }}
                         className="space-y-6 overflow-hidden"
                       >
-                        <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
+                        <div className="p-4 md:p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
                           <div className="space-y-1.5">
                             <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Reason for Denial</label>
                             <textarea 
@@ -285,7 +285,7 @@ export function BWGUpgradation() {
                       <CheckCircle2 className="w-5 h-5" />
                       Save & Update BWG Status
                     </button>
-                    <button className="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
+                    <button className="px-4 md:px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-xl hover:bg-surface-container-highest transition-all">
                       Save Draft
                     </button>
                   </div>
@@ -300,7 +300,7 @@ export function BWGUpgradation() {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <nav className="flex items-center gap-2 text-on-surface-variant text-[10px] uppercase tracking-widest mb-2 font-bold">
             <span>CRM Modules</span>
@@ -311,12 +311,12 @@ export function BWGUpgradation() {
           <p className="text-on-surface-variant text-sm mt-1">Identify and upgrade high-performing venues to BWG Premium status.</p>
         </div>
         
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary px-5 py-2.5 rounded-full text-sm font-black uppercase tracking-wider flex items-center gap-2">
             <Zap className="w-4 h-4 fill-primary" />
             Premium Logic Active
           </div>
-        </div>
+        </div> */}
       </header>
 
       {/* Stats */}
@@ -338,7 +338,7 @@ export function BWGUpgradation() {
 
       {/* Venue Listing */}
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-4 md:p-6 border-b border-outline-variant/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-xl font-bold">Select Venue for Upgradation</h2>
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -361,11 +361,11 @@ export function BWGUpgradation() {
           <table className="w-full text-left min-w-[900px]">
             <thead className="bg-surface-container-low/50 text-on-surface-variant uppercase text-[10px] font-black tracking-widest sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4">Venue Details</th>
-                <th className="px-6 py-4">Current Tier</th>
-                <th className="px-6 py-4">Bookings (LMTD)</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-4 md:px-6 py-4">Venue Details</th>
+                <th className="px-4 md:px-6 py-4">Current Tier</th>
+                <th className="px-4 md:px-6 py-4">Bookings (LMTD)</th>
+                <th className="px-4 md:px-6 py-4">Status</th>
+                <th className="px-4 md:px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
@@ -375,7 +375,7 @@ export function BWGUpgradation() {
                   onClick={() => setSelectedVenue(venue)}
                   className="group hover:bg-surface-container-low transition-colors cursor-pointer"
                 >
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary">
                         <Store className="w-5 h-5" />
@@ -386,18 +386,18 @@ export function BWGUpgradation() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <span className="px-3 py-1 bg-surface-container-high text-on-surface text-[10px] font-bold rounded-full uppercase tracking-wider">
                       {venue.currentTier}
                     </span>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-4 h-4 text-tertiary" />
                       <span className="text-sm font-bold">{venue.bookingsLastMonth} Bookings</span>
                     </div>
                   </td>
-                  <td className="px-6 py-5">
+                  <td className="px-4 md:px-6 py-5">
                     <span className={cn(
                       "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider",
                       venue.bwgStatus === 'Eligible' ? "bg-tertiary/10 text-tertiary" : 
@@ -407,7 +407,7 @@ export function BWGUpgradation() {
                       {venue.bwgStatus}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-4 md:px-6 py-5 text-right">
                     <button className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg shadow-lg shadow-primary/10 group-hover:scale-105 transition-all">
                       Initiate
                     </button>

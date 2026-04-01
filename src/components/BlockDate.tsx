@@ -183,7 +183,7 @@ export function BlockDate() {
           </div>
           <button 
             onClick={() => { setView('select-mandapam'); setSelectedMandapam(null); }}
-            className="px-6 py-3 bg-primary text-white font-black text-sm rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+            className="px-4 md:px-6 py-3 bg-primary text-white font-black text-sm rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             New Booking
@@ -191,7 +191,7 @@ export function BlockDate() {
         </header>
 
         <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm overflow-hidden flex flex-col min-h-[60vh]">
-          <div className="px-6 py-5 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center justify-between">
+          <div className="px-4 md:px-6 py-5 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center justify-between">
             <h3 className="text-sm font-black uppercase tracking-widest text-on-surface flex items-center gap-2">
               <CalendarDays className="w-4 h-4 text-primary" />
               Bookings Directory ({filteredBlocks.length})
@@ -298,7 +298,7 @@ export function BlockDate() {
           <p className="text-on-surface-variant text-sm mt-1">Search and select the property where you want to block a date.</p>
         </header>
 
-        <div className="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
+        <div className="bg-surface-container-lowest p-4 md:p-6 rounded-3xl border border-outline-variant/10 shadow-sm">
           <div className="relative mb-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
             <input 
@@ -345,7 +345,7 @@ export function BlockDate() {
   // VIEW 3: CALENDAR VIEW FOR SELECTED MANDAPAM
   // ----------------------------------------------------------------------
   return (
-    <div className="mx-auto flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-8rem)]">
+    <div className="mx-auto flex flex-col lg:flex-row gap-4 md:gap-8 min-h-[calc(100vh-8rem)]">
       {/* LEFT: CALENDAR */}
       <div className="flex-1 space-y-6">
         <header>
@@ -363,28 +363,28 @@ export function BlockDate() {
           <p className="text-on-surface-variant text-sm mt-1">{selectedMandapam?.location} • ID: {selectedMandapam?.id}</p>
         </header>
 
-        <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm p-8">
+        <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-sm p-4 md:p-8">
           {/* Calendar Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
               <h2 className="text-2xl font-black text-on-surface">March 2026</h2>
               <p className="text-sm font-bold text-primary mt-1">Calendar Overview</p>
             </div>
-            <div className="flex gap-2">
-              <button className="p-3 bg-surface-container-low hover:bg-surface-container-high rounded-xl transition-colors text-on-surface-variant">
+            <div className="flex gap-2 w-full md:w-auto">
+              <button className="p-3 bg-surface-container-low hover:bg-surface-container-high rounded-xl transition-colors text-on-surface-variant flex-shrink-0">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <button className="px-5 py-3 bg-surface-container-low hover:bg-surface-container-high font-bold text-sm text-on-surface rounded-xl transition-colors">
+              <button className="flex-1 md:flex-none px-5 py-3 bg-surface-container-low hover:bg-surface-container-high font-bold text-sm text-on-surface rounded-xl transition-colors text-center">
                 Today
               </button>
-              <button className="p-3 bg-surface-container-low hover:bg-surface-container-high rounded-xl transition-colors text-on-surface-variant">
+              <button className="p-3 bg-surface-container-low hover:bg-surface-container-high rounded-xl transition-colors text-on-surface-variant flex-shrink-0">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
 
           {/* Legend */}
-          <div className="flex flex-wrap gap-6 mb-6">
+          <div className="flex flex-wrap gap-4 md:gap-6 mb-6">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-gradient-to-b from-rose-500/40 via-rose-500/40 via-[30%] to-transparent border-t-2 border-rose-500"></div>
               <span className="text-xs font-bold text-on-surface-variant">Morning Half</span>
@@ -408,15 +408,15 @@ export function BlockDate() {
           </div>
 
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-4">
+          <div className="grid grid-cols-7 gap-1 md:gap-4">
             {DAYS.map(d => (
-              <div key={d} className="text-center text-xs font-black uppercase tracking-widest text-on-surface-variant py-2">
+              <div key={d} className="text-center text-[9px] md:text-xs font-black uppercase tracking-widest text-on-surface-variant py-1 md:py-2">
                 {d}
               </div>
             ))}
             
             {Array.from({ length: START_DAY_IDX }).map((_, i) => (
-              <div key={`empty-${i}`} className="aspect-square rounded-2xl bg-surface-container-low/30 border border-dashed border-outline-variant/10"></div>
+              <div key={`empty-${i}`} className="aspect-square rounded-lg md:rounded-2xl bg-surface-container-low/30 border border-dashed border-outline-variant/10"></div>
             ))}
 
             {Array.from({ length: MARCH_2026_DAYS }).map((_, i) => {
@@ -429,12 +429,13 @@ export function BlockDate() {
                   key={day}
                   onClick={() => handleDayClick(day)}
                   className={cn(
-                    "relative aspect-square rounded-2xl border-2 transition-all overflow-hidden group flex flex-col items-center justify-center",
+                    "relative aspect-square rounded-lg md:rounded-2xl border md:border-2 transition-all overflow-hidden group flex flex-col items-center justify-center",
                     getHoverClasses(b?.type || null, isSelected)
                   )}
                 >
                   <span className={cn(
-                    "text-xl font-black z-10 transition-colors",
+                    "text-[13px] md:text-xl font-black z-10 transition-colors",
+                    (b?.type === 'full' || b?.type === 'mukurtham') ? "absolute top-1 md:static" : "",
                     getHoverTextClasses(b?.type || null)
                   )}>
                     {day}
@@ -442,21 +443,21 @@ export function BlockDate() {
 
                   {/* Morning Block Visual */}
                   {b?.type === 'morning' && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-rose-500/20 via-rose-500/20 via-[30%] to-transparent border-t-4 border-rose-500 pointer-events-none rounded-xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-rose-500/20 via-rose-500/20 via-[30%] to-transparent border-t-2 md:border-t-4 border-rose-500 pointer-events-none rounded-lg md:rounded-xl"></div>
                   )}
 
                   {/* Evening Block Visual */}
                   {b?.type === 'evening' && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 via-emerald-500/20 via-[30%] to-transparent border-b-4 border-emerald-500 pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 via-emerald-500/20 via-[30%] to-transparent border-b-2 md:border-b-4 border-emerald-500 pointer-events-none"></div>
                   )}
 
                   {/* Full Block Visual */}
                   {b?.type === 'full' && (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-purple-500/20 via-[30%] to-transparent border-4 border-purple-500 pointer-events-none rounded-xl"></div>
-                      <div className="absolute inset-x-0 bottom-2 flex justify-center text-purple-600 pointer-events-none">
-                        <div className="px-2 py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1 border border-purple-500/20 shadow-sm">
-                          <XCircle className="w-2.5 h-2.5" /> Blocked
+                      <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-purple-500/20 via-[30%] to-transparent border-2 md:border-4 border-purple-500 pointer-events-none rounded-lg md:rounded-xl"></div>
+                      <div className="absolute inset-x-0 bottom-1 md:bottom-2 hidden md:flex justify-center text-purple-600 pointer-events-none">
+                        <div className="px-1 md:px-2 py-[1px] md:py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[6px] md:text-[8px] font-black uppercase tracking-widest flex items-center gap-0.5 md:gap-1 border border-purple-500/20 shadow-sm leading-none">
+                          <XCircle className="w-2 md:w-2.5 h-2 md:h-2.5" /> <span className="hidden sm:inline">Blocked</span><span className="sm:hidden">F</span>
                         </div>
                       </div>
                     </>
@@ -465,10 +466,10 @@ export function BlockDate() {
                   {/* Mukurtham Block Visual */}
                   {b?.type === 'mukurtham' && (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-orange-600/20 via-[30%] to-transparent border-4 border-orange-600 pointer-events-none rounded-xl"></div>
-                      <div className="absolute inset-x-0 bottom-2 flex justify-center text-orange-600 pointer-events-none">
-                        <div className="px-2 py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[8px] font-black uppercase tracking-widest flex items-center gap-1 border border-orange-500/20 shadow-sm">
-                          <CheckCircle2 className="w-2.5 h-2.5" /> Booked
+                      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-orange-600/20 via-[30%] to-transparent border-2 md:border-4 border-orange-600 pointer-events-none rounded-lg md:rounded-xl"></div>
+                      <div className="absolute inset-x-0 bottom-1 md:bottom-2 hidden md:flex justify-center text-orange-600 pointer-events-none">
+                        <div className="px-1 md:px-2 py-[1px] md:py-0.5 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-[6px] md:text-[8px] font-black uppercase tracking-widest flex items-center gap-0.5 md:gap-1 border border-orange-500/20 shadow-sm leading-none">
+                          <CheckCircle2 className="w-2 md:w-2.5 h-2 md:h-2.5" /> <span className="hidden sm:inline">Booked</span><span className="sm:hidden">M</span>
                         </div>
                       </div>
                     </>
@@ -482,14 +483,28 @@ export function BlockDate() {
 
       {/* RIGHT: ACTION PANEL */}
       <AnimatePresence>
+        {selectedDate && (
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedDate(null)}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence mode="popLayout">
         {selectedDate ? (
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="w-full lg:w-[400px] shrink-0 bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-xl overflow-hidden flex flex-col"
+            key="panel"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="fixed inset-x-4 md:inset-x-0 md:mx-auto md:w-full md:max-w-md top-[10vh] bottom-[10vh] z-50 lg:static lg:inset-auto lg:z-auto lg:mx-0 lg:max-w-none w-auto lg:w-[400px] shrink-0 bg-surface-container-lowest rounded-3xl border border-outline-variant/10 shadow-2xl lg:shadow-xl overflow-hidden flex flex-col"
           >
-            <div className="p-6 border-b border-outline-variant/10 bg-primary-container text-white relative">
+            <div className="p-4 md:p-6 border-b border-outline-variant/10 bg-primary-container text-white relative">
               <button 
                 onClick={() => setSelectedDate(null)}
                 className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
@@ -500,7 +515,7 @@ export function BlockDate() {
               <p className="font-bold text-white/80 mt-1 uppercase tracking-widest text-xs">2026 • {selectedMandapam?.name}</p>
             </div>
 
-            <div className="p-6 flex-1 overflow-y-auto custom-scrollbar">
+            <div className="p-4 md:p-6 flex-1 overflow-y-auto custom-scrollbar">
               {currentBlock ? (
                 <div className="space-y-6">
                   <div className={cn(
@@ -596,11 +611,11 @@ export function BlockDate() {
                   </div>
 
                   <div className="space-y-4 pt-4 border-t border-outline-variant/10">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant block px-1">Customer Details</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant block px-1">Customer Details <span className="lowercase font-bold opacity-60">(optional)</span></label>
                     
                     <div className="space-y-1.5">
                       <input 
-                        type="text" required
+                          type="text"
                         placeholder="Customer Name"
                         value={bookingForm.name} onChange={(e) => setBookingForm({...bookingForm, name: e.target.value})}
                         className="w-full bg-surface-container-low border-none rounded-xl py-3.5 px-4 text-sm font-medium focus:ring-2 ring-primary/20" 
@@ -609,7 +624,7 @@ export function BlockDate() {
                     
                     <div className="space-y-1.5">
                       <input 
-                        type="tel" required
+                          type="tel"
                         placeholder="Phone Number"
                         value={bookingForm.phone} onChange={(e) => setBookingForm({...bookingForm, phone: e.target.value})}
                         className="w-full bg-surface-container-low border-none rounded-xl py-3.5 px-4 text-sm font-medium focus:ring-2 ring-primary/20" 
@@ -629,7 +644,7 @@ export function BlockDate() {
             </div>
           </motion.div>
         ) : (
-          <div className="hidden lg:flex w-[400px] shrink-0 bg-surface-container-low/50 rounded-3xl border border-dashed border-outline-variant/30 flex-col items-center justify-center text-center p-8">
+          <div className="hidden lg:flex w-[400px] shrink-0 bg-surface-container-low/50 rounded-3xl border border-dashed border-outline-variant/30 flex-col items-center justify-center text-center p-4 md:p-8">
             <div className="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mb-6 shadow-inner">
               <CalendarDays className="w-10 h-10 text-on-surface-variant opacity-50" />
             </div>

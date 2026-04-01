@@ -219,7 +219,7 @@ export function BeatPlanning() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-2xl bg-surface-container-lowest rounded-[32px] shadow-2xl overflow-hidden"
             >
-              <div className="p-8">
+              <div className="p-4 md:p-8">
                 <div className="flex justify-between items-center mb-6">
                   <div>
                     <h3 className="text-2xl font-black text-on-surface tracking-tight">Admin: Update Vendor</h3>
@@ -312,7 +312,7 @@ export function BeatPlanning() {
                       <Save className="w-5 h-5" />
                       Update & Sync Portal
                     </button>
-                    <button type="button" onClick={() => setIsAdminModalOpen(false)} className="px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-2xl hover:bg-surface-container-highest transition-all">
+                    <button type="button" onClick={() => setIsAdminModalOpen(false)} className="px-4 md:px-8 py-4 bg-surface-container-high text-on-surface font-bold rounded-2xl hover:bg-surface-container-highest transition-all">
                       Cancel
                     </button>
                   </div>
@@ -326,7 +326,7 @@ export function BeatPlanning() {
       {/* Vendor Detail Modal */}
       <AnimatePresence>
         {selectedVendor && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-4 md:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -341,7 +341,7 @@ export function BeatPlanning() {
               className="relative w-full max-w-4xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
             >
               {/* Modal Left: Visuals & Quick Info */}
-              <div className="w-full md:w-2/5 bg-primary-container p-8 text-white relative overflow-hidden flex flex-col">
+              <div className="w-full md:w-2/5 bg-primary-container p-4 md:p-8 text-white relative overflow-hidden flex flex-col">
                 <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                 
@@ -402,7 +402,7 @@ export function BeatPlanning() {
               </div>
 
               {/* Modal Right: Details & Actions */}
-              <div className="flex-1 p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
+              <div className="flex-1 p-4 md:p-8 overflow-y-auto no-scrollbar bg-surface-container-lowest">
                 <div className="flex justify-between items-center mb-8">
                   <h3 className="text-xl font-black text-on-surface tracking-tight">Vendor Intelligence</h3>
                   <button 
@@ -499,7 +499,7 @@ export function BeatPlanning() {
       </AnimatePresence>
 
       {/* Notifications Section */}
-      <div className="bg-surface-container-low rounded-3xl p-6">
+      <div className="bg-surface-container-low rounded-3xl p-4 md:p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-black text-on-surface flex items-center gap-2">
             <Bell className="w-5 h-5 text-primary" />
@@ -532,7 +532,7 @@ export function BeatPlanning() {
         </div>
       </div>
 
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
@@ -601,14 +601,14 @@ export function BeatPlanning() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
         {[
           { label: 'Assigned Vendors', value: vendors.length.toString(), trend: '+12%', trendColor: 'text-tertiary' },
           { label: 'Nearby Venues', value: vendors.filter(v => v.proximity < 1).length.toString(), sub: 'Within 1km' },
           { label: 'BWG Pipeline', value: vendors.filter(v => v.bwgPromise === 'N').length.toString(), sub: 'Needs Visit', subColor: 'text-primary' },
           { label: 'Avg. Distance', value: (vendors.reduce((acc, v) => acc + v.proximity, 0) / vendors.length).toFixed(1), sub: 'km / visit', icon: MapPin },
         ].map((stat, i) => (
-          <div key={i} className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:-translate-y-1 transition-all relative overflow-hidden">
+          <div key={i} className="bg-surface-container-lowest p-4 md:p-6 rounded-2xl shadow-sm hover:-translate-y-1 transition-all relative overflow-hidden">
             {stat.icon && <stat.icon className="absolute right-4 top-4 w-12 h-12 text-on-surface-variant/10" />}
             <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">{stat.label}</p>
             <div className="flex items-baseline gap-2">
@@ -633,16 +633,16 @@ export function BeatPlanning() {
           <table className="w-full text-left border-separate border-spacing-y-1 min-w-[1200px]">
             <thead className="sticky top-0 z-10 bg-surface-container-low">
               <tr className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">
-                <th className="px-6 py-4">Vendor ID</th>
-                <th className="px-6 py-4">Halls</th>
-                <th className="px-6 py-4">Vendor Name</th>
-                <th className="px-6 py-4">Contact Numbers</th>
-                <th className="px-6 py-4">Zip Code</th>
-                <th className="px-6 py-4 text-center">BWG Promise</th>
-                <th className="px-6 py-4 text-center">Co-operation</th>
-                <th className="px-6 py-4 text-center">Beat No.</th>
-                <th className="px-6 py-4">Purpose of Visit</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-4 md:px-6 py-4">Vendor ID</th>
+                <th className="px-4 md:px-6 py-4">Halls</th>
+                <th className="px-4 md:px-6 py-4">Vendor Name</th>
+                <th className="px-4 md:px-6 py-4">Contact Numbers</th>
+                <th className="px-4 md:px-6 py-4">Zip Code</th>
+                <th className="px-4 md:px-6 py-4 text-center">BWG Promise</th>
+                <th className="px-4 md:px-6 py-4 text-center">Co-operation</th>
+                <th className="px-4 md:px-6 py-4 text-center">Beat No.</th>
+                <th className="px-4 md:px-6 py-4">Purpose of Visit</th>
+                <th className="px-4 md:px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="text-sm">
@@ -651,9 +651,9 @@ export function BeatPlanning() {
                   key={vendor.id} 
                   className="bg-surface-container-lowest hover:bg-surface-bright transition-colors group shadow-sm"
                 >
-                  <td className="px-6 py-4 rounded-l-2xl font-bold text-on-surface-variant">{vendor.id}</td>
-                  <td className="px-6 py-4 font-bold">{vendor.halls}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4 rounded-l-2xl font-bold text-on-surface-variant">{vendor.id}</td>
+                  <td className="px-4 md:px-6 py-4 font-bold">{vendor.halls}</td>
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-primary-container/10 flex items-center justify-center font-black text-primary text-xs">
                         {vendor.name.charAt(0)}
@@ -661,21 +661,21 @@ export function BeatPlanning() {
                       <span className="font-bold text-on-surface">{vendor.name}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4">
                     <div className="flex flex-col gap-0.5">
                       {vendor.contacts.map((num, i) => (
                         <span key={i} className="text-[11px] font-medium text-on-surface-variant">{num}</span>
                       ))}
                     </div>
                   </td>
-                  <td className="px-6 py-4 font-medium">{vendor.zip}</td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 md:px-6 py-4 font-medium">{vendor.zip}</td>
+                  <td className="px-4 md:px-6 py-4 text-center">
                     <span className={cn(
                       "px-2 py-0.5 rounded text-[10px] font-black border",
                       vendor.bwgPromise === 'Y' ? "bg-tertiary/10 text-tertiary border-tertiary/20" : "bg-error/10 text-error border-error/20"
                     )}>{vendor.bwgPromise}</span>
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 md:px-6 py-4 text-center">
                     <span className={cn(
                       "px-2 py-0.5 rounded text-[10px] font-black border",
                       vendor.cooperation === 'Y' ? "bg-tertiary/10 text-tertiary border-tertiary/20" : 
@@ -683,8 +683,8 @@ export function BeatPlanning() {
                       "bg-error/10 text-error border-error/20"
                     )}>{vendor.cooperation}</span>
                   </td>
-                  <td className="px-6 py-4 text-center font-black text-primary">{vendor.beatNo}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 md:px-6 py-4 text-center font-black text-primary">{vendor.beatNo}</td>
+                  <td className="px-4 md:px-6 py-4">
                     <select 
                       value={vendor.purpose}
                       onChange={(e) => handlePurposeChange(vendor.id, e.target.value)}
@@ -696,7 +696,7 @@ export function BeatPlanning() {
                       ))}
                     </select>
                   </td>
-                  <td className="px-6 py-4 rounded-r-2xl text-right">
+                  <td className="px-4 md:px-6 py-4 rounded-r-2xl text-right">
                     <button 
                       onClick={() => addToPlan(vendor)}
                       disabled={plannedVisits.some(v => v.id === vendor.id)}
@@ -746,49 +746,49 @@ export function BeatPlanning() {
             <table className="w-full text-left border-separate border-spacing-y-1 min-w-[1200px]">
               <thead className="bg-surface-container-low">
                 <tr className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">
-                  <th className="px-6 py-4">Sequence</th>
-                  <th className="px-6 py-4">Halls</th>
-                  <th className="px-6 py-4">Vendor Name</th>
-                  <th className="px-6 py-4">Contacts</th>
-                  <th className="px-6 py-4">Zip Code</th>
-                  <th className="px-6 py-4 text-center">BWG Status</th>
-                  <th className="px-6 py-4 text-center">Co-op Status</th>
-                  <th className="px-6 py-4">Purpose</th>
-                  <th className="px-6 py-4">Comments</th>
-                  <th className="px-6 py-4 text-right">Action</th>
+                  <th className="px-4 md:px-6 py-4">Sequence</th>
+                  <th className="px-4 md:px-6 py-4">Halls</th>
+                  <th className="px-4 md:px-6 py-4">Vendor Name</th>
+                  <th className="px-4 md:px-6 py-4">Contacts</th>
+                  <th className="px-4 md:px-6 py-4">Zip Code</th>
+                  <th className="px-4 md:px-6 py-4 text-center">BWG Status</th>
+                  <th className="px-4 md:px-6 py-4 text-center">Co-op Status</th>
+                  <th className="px-4 md:px-6 py-4">Purpose</th>
+                  <th className="px-4 md:px-6 py-4">Comments</th>
+                  <th className="px-4 md:px-6 py-4 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
                 {plannedVisits.map((vendor, index) => (
                   <tr key={vendor.id} className="bg-surface-container-lowest shadow-sm">
-                    <td className="px-6 py-4 rounded-l-2xl">
+                    <td className="px-4 md:px-6 py-4 rounded-l-2xl">
                       <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-black text-xs">
                         {index + 1}
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-bold">{vendor.halls}</td>
-                    <td className="px-6 py-4 font-bold text-on-surface">{vendor.name}</td>
-                    <td className="px-6 py-4 text-[11px] text-on-surface-variant">{vendor.contacts[0]}</td>
-                    <td className="px-6 py-4 font-medium">{vendor.zip}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-4 font-bold">{vendor.halls}</td>
+                    <td className="px-4 md:px-6 py-4 font-bold text-on-surface">{vendor.name}</td>
+                    <td className="px-4 md:px-6 py-4 text-[11px] text-on-surface-variant">{vendor.contacts[0]}</td>
+                    <td className="px-4 md:px-6 py-4 font-medium">{vendor.zip}</td>
+                    <td className="px-4 md:px-6 py-4 text-center">
                       <span className="text-[10px] font-black">{vendor.bwgPromise}</span>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 md:px-6 py-4 text-center">
                       <span className="text-[10px] font-black">{vendor.cooperation}</span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4">
                       <span className="px-2 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase rounded">
                         {vendor.purpose}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 md:px-6 py-4">
                       <input 
                         type="text" 
                         placeholder="Add field notes..."
                         className="bg-transparent border-none focus:ring-0 text-xs w-full placeholder:text-on-surface-variant/30"
                       />
                     </td>
-                    <td className="px-6 py-4 rounded-r-2xl text-right">
+                    <td className="px-4 md:px-6 py-4 rounded-r-2xl text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button 
                           onClick={() => navigate(purposeRoutes[vendor.purpose] || '/')}
@@ -812,7 +812,7 @@ export function BeatPlanning() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         <div className="lg:col-span-2 h-[400px] rounded-3xl overflow-hidden relative shadow-inner border border-outline-variant/10">
           <img 
             src="https://picsum.photos/seed/map/1200/600?grayscale" 
@@ -848,7 +848,7 @@ export function BeatPlanning() {
           </div>
         </div>
         
-        <div className="bg-surface-container-lowest p-8 rounded-3xl flex flex-col justify-center gap-6 shadow-sm border border-outline-variant/10">
+        <div className="bg-surface-container-lowest p-4 md:p-8 rounded-3xl flex flex-col justify-center gap-4 md:gap-6 shadow-sm border border-outline-variant/10">
           <div>
             <h4 className="text-xl font-black text-on-surface mb-2 tracking-tight">Route Optimization</h4>
             <p className="text-sm text-on-surface-variant leading-relaxed">AI-suggested sequence to minimize travel time and maximize visit efficiency based on GPS data.</p>
