@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, 
   Map, 
@@ -40,7 +41,9 @@ const venues = [
 ];
 
 export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boolean; onClose?: () => void }) {
+  const { logout } = useAuth();
   const [isCheckInOpen, setIsCheckInOpen] = useState(false);
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -126,8 +129,11 @@ export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boole
           <span>Settings</span>
         </NavLink>
         
-        <button className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium w-full text-left rounded-lg">
-          <LogOut className="w-5 h-5" />
+        <button 
+          onClick={() => { if (isMobile) onClose(); setIsLogoutDialogOpen(true); }}
+          className="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 text-sm font-medium w-full text-left rounded-lg group"
+        >
+          <LogOut className="w-5 h-5 group-hover:text-primary transition-colors" />
           <span>Logout</span>
         </button>
       </div>
@@ -144,7 +150,7 @@ export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boole
       {/* Mobile Drawer Sidebar */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[100] lg:hidden">
+          <div className="fixed inset-0 z-[150] lg:hidden">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -167,7 +173,7 @@ export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boole
       {/* Check-in Modal */}
       <AnimatePresence>
         {isCheckInOpen && (
-          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[160] flex items-center justify-center p-4">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -286,6 +292,54 @@ export function Sidebar({ isOpen = false, onClose = () => {} }: { isOpen?: boole
                     </div>
                   </div>
                 )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Logout Confirmation Modal */}
+      <AnimatePresence>
+        {isLogoutDialogOpen && (
+          <div className="fixed inset-0 z-[170] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsLogoutDialogOpen(false)}
+              className="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-sm bg-surface-container-lowest rounded-[32px] shadow-2xl overflow-hidden flex flex-col p-8 items-center text-center border border-outline-variant/10"
+            >
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                <LogOut className="w-10 h-10 text-primary" />
+              </div>
+              
+              <h3 className="text-2xl font-black text-on-surface mb-2 tracking-tight">Confirm Logout</h3>
+              <p className="text-sm text-on-surface-variant font-medium mb-8 leading-relaxed max-w-[240px]">
+                Are you sure you want to end your session and logout of the KAD CRM?
+              </p>
+
+              <div className="flex flex-col gap-3 w-full">
+                <button 
+                  onClick={() => {
+                    setIsLogoutDialogOpen(false);
+                    logout();
+                  }}
+                  className="w-full py-4 bg-primary text-white font-black rounded-2xl text-lg shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-[0.98] transition-all"
+                >
+                  Confirm Logout
+                </button>
+                <button 
+                  onClick={() => setIsLogoutDialogOpen(false)}
+                  className="w-full py-4 bg-surface-container-low text-on-surface font-bold rounded-2xl text-sm hover:bg-surface-container-high transition-all"
+                >
+                  Keep Logged In
+                </button>
               </div>
             </motion.div>
           </div>
