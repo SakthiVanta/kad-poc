@@ -1,10 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { X, Navigation, Store, MapPin, ChevronRight, Filter, Layers } from 'lucide-react';
+import { X, Navigation, Store, MapPin, ChevronRight, Filter, Layers, Loader2, LocateFixed } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
+
+// Blinking blue dot for user's current location
+const getUserLocationIcon = () => L.divIcon({
+  html: `
+    <div style="position:relative;width:22px;height:22px">
+      <div style="
+        position:absolute;inset:0;border-radius:50%;
+        background:rgba(59,130,246,0.35);
+        animation:kad-pulse 1.6s ease-out infinite;
+      "></div>
+      <div style="
+        position:absolute;inset:5px;border-radius:50%;
+        background:#3b82f6;border:2.5px solid white;
+        box-shadow:0 2px 10px rgba(59,130,246,0.7);
+      "></div>
+    </div>
+    <style>
+      @keyframes kad-pulse{
+        0%{transform:scale(.7);opacity:1}
+        100%{transform:scale(2.6);opacity:0}
+      }
+    </style>
+  `,
+  className: 'bg-transparent',
+  iconSize: [22, 22],
+  iconAnchor: [11, 11],
+  popupAnchor: [0, -11]
+});
 
 // Fix for default marker icon
 const getMarkerIcon = (status?: string) => {
@@ -124,6 +152,19 @@ const mockBeats: Beat[] = [
   }
 ];
 
+// Flies map to user location when triggered
+function LocationFlyTo({ location }: { location: [number, number] | null }) {
+  const map = useMap();
+  const prevLocation = useRef<[number, number] | null>(null);
+  useEffect(() => {
+    if (location && location !== prevLocation.current) {
+      prevLocation.current = location;
+      map.flyTo(location, 16, { duration: 1.2 });
+    }
+  }, [location, map]);
+  return null;
+}
+
 // Component to handle map view changes and fix size issues
 function MapController({ center, zoom, isOpen }: { center: [number, number], zoom: number, isOpen: boolean }) {
   const map = useMap();
@@ -146,6 +187,8 @@ function MapController({ center, zoom, isOpen }: { center: [number, number], zoo
 export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [selectedBeat, setSelectedBeat] = useState<Beat>(mockBeats[0]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [flyTarget, setFlyTarget] = useState<[number, number] | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
   const [clickedVenue, setClickedVenue] = useState<Venue | null>(null);
   const [filter, setFilter] = useState<'all' | 'visited' | 'pending' | 'priority'>('all');
@@ -160,6 +203,24 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
       );
     }
   }, []);
+
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) return;
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const loc: [number, number] = [position.coords.latitude, position.coords.longitude];
+        setUserLocation(loc);
+        setFlyTarget(loc);
+        setIsLocating(false);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        setIsLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
 
   const filteredVenues = selectedBeat.venues.filter(v => 
     filter === 'all' || v.status === filter
@@ -254,6 +315,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
               />
               
               <MapController center={selectedBeat.center} zoom={14} isOpen={isOpen} />
+              <LocationFlyTo location={flyTarget} />
 
               {/* Global Primary Wash Overlay */}
               <Circle 
@@ -293,9 +355,9 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 }}
               />
 
-              {/* User Location */}
+              {/* User Location — blinking blue dot */}
               {userLocation && (
-                <Marker position={userLocation}>
+                <Marker position={userLocation} icon={getUserLocationIcon()}>
                   <Popup>
                     <div className="text-center p-1">
                       <p className="font-bold text-xs">Your Location</p>
@@ -344,10 +406,26 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
             </MapContainer>
 
             {/* Floating Controls */}
-            <div className="absolute bottom-8 left-8 z-[100] flex flex-col gap-3">
-              <button className="p-4 bg-surface-container-lowest rounded-2xl shadow-xl text-primary hover:scale-105 transition-transform">
-                <Navigation className="w-6 h-6" />
-              </button>
+            <div className="absolute bottom-8 left-8 flex flex-col gap-3" style={{ zIndex: 9999 }}>
+              <div className="group relative">
+                <button
+                  onClick={handleLocateMe}
+                  disabled={isLocating}
+                  className="p-4 bg-surface-container-lowest rounded-2xl shadow-xl text-primary hover:scale-105 transition-transform disabled:opacity-60 disabled:scale-100"
+                >
+                  {isLocating
+                    ? <Loader2 className="w-6 h-6 animate-spin" />
+                    : <LocateFixed className="w-6 h-6" />
+                  }
+                </button>
+                {/* Tooltip */}
+                <div className="pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-150" style={{ zIndex: 9999 }}>
+                  <div className="bg-on-surface text-surface text-[10px] font-bold uppercase tracking-widest whitespace-nowrap px-3 py-1.5 rounded-lg shadow-lg">
+                    Your Location
+                  </div>
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-on-surface" />
+                </div>
+              </div>
               <button className="p-4 bg-surface-container-lowest rounded-2xl shadow-xl text-on-surface-variant hover:scale-105 transition-transform">
                 <Layers className="w-6 h-6" />
               </button>
@@ -360,8 +438,9 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
+                  style={{ zIndex: 9999 }}
                   className={cn(
-                    "absolute bottom-8 right-8 z-[100] w-80 bg-surface-container-lowest rounded-[32px] shadow-2xl border border-outline-variant/10 overflow-hidden",
+                    "absolute bottom-8 right-8 w-80 bg-surface-container-lowest rounded-[32px] shadow-2xl border border-outline-variant/10 overflow-hidden",
                     clickedVenue ? "ring-2 ring-primary/20" : ""
                   )}
                 >
