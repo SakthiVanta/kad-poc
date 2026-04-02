@@ -44,6 +44,45 @@ export const venues = [
         { date: '10-Mar-2026', purpose: 'Training', status: 'Completed' },
         { date: '01-Mar-2026', purpose: 'Logistics', status: 'Pending' }
       ]
+    },
+    audit: {
+      platformIQ: {
+        score: 85,
+        rank: 'Platinum',
+        breakdown: [
+          { label: 'Visit Frequency', score: 90 },
+          { label: 'Commission Punctuality', score: 88 },
+          { label: 'Lead Conversion', score: 75 },
+          { label: 'BWG Compliance', score: 92 },
+          { label: 'Response Rate', score: 80 },
+        ]
+      },
+      summary: {
+        totalVisits: 24,
+        visitsThisMonth: 3,
+        totalLeads: 142,
+        convertedLeads: 112,
+        pendingLeads: 18,
+        lostLeads: 12,
+        commissionCollected: 420000,
+        commissionPending: 80000,
+        avgVisitScore: 4.2,
+        bwgStatus: 'Promise',
+      },
+      visitLog: [
+        { date: '18-Mar-2026', type: 'Commission', outcome: 'Collected', executive: 'Rajan K.', notes: '₹45,000 collected via UPI. Owner cooperative.' },
+        { date: '10-Mar-2026', type: 'P1 Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'Discussed BWG upgrade to Gold tier. Owner interested, board approval pending.' },
+        { date: '01-Mar-2026', type: 'General Visit', outcome: 'Pending', executive: 'Rajan K.', notes: 'Venue under minor renovation, follow up scheduled.' },
+        { date: '22-Feb-2026', type: 'BWG Upgrade', outcome: 'Declined', executive: 'Rajan K.', notes: 'Owner not ready, revisit in Q2.' },
+        { date: '10-Feb-2026', type: 'General Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'New banquet hall opening next month. Lead opportunity.' },
+        { date: '28-Jan-2026', type: 'Commission', outcome: 'Collected', executive: 'Rajan K.', notes: '₹1,20,000 collected via cheque. Minor delay due to bank holiday.' },
+      ],
+      commissionLog: [
+        { month: 'Mar 2026', collected: 45000, pending: 0, mode: 'UPI', status: 'Paid' },
+        { month: 'Feb 2026', collected: 120000, pending: 30000, mode: 'Cheque', status: 'Partial' },
+        { month: 'Jan 2026', collected: 255000, pending: 50000, mode: 'NEFT', status: 'Partial' },
+        { month: 'Dec 2025', collected: 0, pending: 0, mode: '—', status: 'No Commission' },
+      ],
     }
   },
   {
@@ -82,6 +121,41 @@ export const venues = [
         { date: '16-Mar-2026', purpose: 'Support', status: 'Success' },
         { date: '05-Mar-2026', purpose: 'Collection', status: 'Success' }
       ]
+    },
+    audit: {
+      platformIQ: {
+        score: 68,
+        rank: 'Gold',
+        breakdown: [
+          { label: 'Visit Frequency', score: 72 },
+          { label: 'Commission Punctuality', score: 65 },
+          { label: 'Lead Conversion', score: 60 },
+          { label: 'BWG Compliance', score: 78 },
+          { label: 'Response Rate', score: 65 },
+        ]
+      },
+      summary: {
+        totalVisits: 14,
+        visitsThisMonth: 2,
+        totalLeads: 89,
+        convertedLeads: 58,
+        pendingLeads: 20,
+        lostLeads: 11,
+        commissionCollected: 180000,
+        commissionPending: 45000,
+        avgVisitScore: 3.6,
+        bwgStatus: 'Non-BWG',
+      },
+      visitLog: [
+        { date: '16-Mar-2026', type: 'General Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'Discussed platform benefits. Owner receptive.' },
+        { date: '05-Mar-2026', type: 'Commission', outcome: 'Collected', executive: 'Rajan K.', notes: '₹30,000 collected via NEFT.' },
+        { date: '18-Feb-2026', type: 'P1 Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'Initial pitch for BWG Promise tier. Owner needs time.' },
+      ],
+      commissionLog: [
+        { month: 'Mar 2026', collected: 30000, pending: 15000, mode: 'NEFT', status: 'Partial' },
+        { month: 'Feb 2026', collected: 60000, pending: 0, mode: 'UPI', status: 'Paid' },
+        { month: 'Jan 2026', collected: 90000, pending: 30000, mode: 'Cheque', status: 'Partial' },
+      ],
     }
   },
   {
@@ -120,6 +194,45 @@ export const venues = [
         { date: '14-Mar-2026', purpose: 'Follow-up', status: 'Success' },
         { date: '02-Mar-2026', purpose: 'Listing', status: 'Completed' }
       ]
+    },
+    audit: {
+      platformIQ: {
+        score: 94,
+        rank: 'Diamond',
+        breakdown: [
+          { label: 'Visit Frequency', score: 96 },
+          { label: 'Commission Punctuality', score: 100 },
+          { label: 'Lead Conversion', score: 88 },
+          { label: 'BWG Compliance', score: 95 },
+          { label: 'Response Rate', score: 92 },
+        ]
+      },
+      summary: {
+        totalVisits: 38,
+        visitsThisMonth: 4,
+        totalLeads: 215,
+        convertedLeads: 185,
+        pendingLeads: 20,
+        lostLeads: 10,
+        commissionCollected: 980000,
+        commissionPending: 0,
+        avgVisitScore: 4.8,
+        bwgStatus: 'BWG Gold',
+      },
+      visitLog: [
+        { date: '14-Mar-2026', type: 'General Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'Vendor planning 2 new listings next month. Excellent relationship.' },
+        { date: '02-Mar-2026', type: 'Commission', outcome: 'Collected', executive: 'Rajan K.', notes: '₹3,40,000 collected on time via NEFT. Zero issues.' },
+        { date: '18-Feb-2026', type: 'BWG Upgrade', outcome: 'Completed', executive: 'Rajan K.', notes: 'Upgraded to BWG Gold. Signed new agreement.' },
+        { date: '05-Feb-2026', type: 'P1 Visit', outcome: 'Success', executive: 'Rajan K.', notes: 'Strong performance review. Recommended for Diamond tier.' },
+        { date: '20-Jan-2026', type: 'Commission', outcome: 'Collected', executive: 'Rajan K.', notes: '₹2,80,000 collected. On-time payment, no follow-up needed.' },
+        { date: '08-Jan-2026', type: 'Lead Capture', outcome: 'Success', executive: 'Rajan K.', notes: 'Captured 12 new leads from venue event. High quality prospects.' },
+      ],
+      commissionLog: [
+        { month: 'Mar 2026', collected: 340000, pending: 0, mode: 'NEFT', status: 'Paid' },
+        { month: 'Feb 2026', collected: 360000, pending: 0, mode: 'NEFT', status: 'Paid' },
+        { month: 'Jan 2026', collected: 280000, pending: 0, mode: 'NEFT', status: 'Paid' },
+        { month: 'Dec 2025', collected: 0, pending: 0, mode: '—', status: 'No Commission' },
+      ],
     }
   }
 ];

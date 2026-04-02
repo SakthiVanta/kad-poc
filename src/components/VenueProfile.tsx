@@ -1,35 +1,433 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  TrendingUp, 
-  Lightbulb, 
-  CalendarCheck, 
-  Wallet, 
-  Clock, 
-  X, 
-  MapPin, 
-  ChevronLeft, 
-  Users, 
-  Building2, 
-  History, 
-  CheckCircle2, 
-  Phone, 
-  Mail, 
+import {
+  TrendingUp,
+  Lightbulb,
+  CalendarCheck,
+  Wallet,
+  Clock,
+  X,
+  MapPin,
+  ChevronLeft,
+  Users,
+  Building2,
+  History,
+  CheckCircle2,
+  Phone,
+  Mail,
   Info,
   LineChart,
   MessageSquare,
-  ArrowRight
+  ArrowRight,
+  Award,
+  Activity,
+  DollarSign,
+  FileText,
+  Star,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  CreditCard,
+  BarChart2,
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, Cell, BarChart, Bar } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { venues, trafficData } from '../data/mockData';
 
+// ─── Audit Modal ─────────────────────────────────────────────────────────────
+function AuditModal({ venue, onClose }: { venue: (typeof venues)[0]; onClose: () => void }) {
+  const [tab, setTab] = useState<'summary' | 'visits' | 'commission' | 'leads'>('summary');
+  const { audit } = venue;
+  const iq = audit.platformIQ;
+  const s = audit.summary;
+
+  const rankColors: Record<string, string> = {
+    Diamond: 'text-sky-400',
+    Platinum: 'text-violet-400',
+    Gold: 'text-amber-400',
+    Silver: 'text-slate-400',
+  };
+
+  const visitTypeColor: Record<string, string> = {
+    'Commission': 'bg-emerald-500/10 text-emerald-600 border-emerald-200',
+    'P1 Visit': 'bg-primary/10 text-primary border-primary/20',
+    'General Visit': 'bg-sky-500/10 text-sky-600 border-sky-200',
+    'BWG Upgrade': 'bg-violet-500/10 text-violet-600 border-violet-200',
+    'Lead Capture': 'bg-amber-500/10 text-amber-600 border-amber-200',
+  };
+
+  const outcomeIcon = (outcome: string) => {
+    if (outcome === 'Success' || outcome === 'Collected' || outcome === 'Completed') return <CheckCircle className="w-4 h-4 text-emerald-500" />;
+    if (outcome === 'Declined') return <XCircle className="w-4 h-4 text-error" />;
+    return <AlertCircle className="w-4 h-4 text-amber-500" />;
+  };
+
+  const formatCurrency = (n: number) =>
+    n >= 100000 ? `₹${(n / 100000).toFixed(1)}L` : `₹${(n / 1000).toFixed(0)}K`;
+
+  const circumference = 2 * Math.PI * 54;
+  const dashOffset = circumference - (circumference * iq.score) / 100;
+
+  const tabs = [
+    { id: 'summary', label: 'Summary', icon: BarChart2 },
+    { id: 'visits', label: 'Visit Log', icon: History },
+    { id: 'commission', label: 'Commission', icon: DollarSign },
+    { id: 'leads', label: 'Lead Pipeline', icon: Activity },
+  ] as const;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 60, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 40, scale: 0.97 }}
+        transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+        className="relative bg-surface w-full sm:max-w-4xl max-h-[94vh] sm:max-h-[88vh] flex flex-col rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden z-10"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-outline-variant/15 shrink-0 bg-surface-container-lowest">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <FileText className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Platform Audit Report</p>
+              <h2 className="text-base font-black text-on-surface leading-tight">{venue.name}</h2>
+            </div>
+          </div>
+          <button onClick={onClose} className="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container-high transition-colors">
+            <X className="w-5 h-5 text-on-surface-variant" />
+          </button>
+        </div>
+
+        {/* IQ Score Hero */}
+        <div className="px-6 py-5 bg-gradient-to-r from-primary/5 to-tertiary/5 border-b border-outline-variant/10 shrink-0">
+          <div className="flex items-center gap-6">
+            {/* Ring Chart */}
+            <div className="relative w-20 h-20 shrink-0">
+              <svg className="w-full h-full rotate-[-90deg]" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="10" className="text-surface-container-high" />
+                <motion.circle
+                  cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  initial={{ strokeDashoffset: circumference }}
+                  animate={{ strokeDashoffset: dashOffset }}
+                  transition={{ duration: 1.2, ease: 'easeOut', delay: 0.2 }}
+                  className="text-primary"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-xl font-black leading-none">{iq.score}</span>
+                <span className="text-[8px] font-black uppercase tracking-widest text-on-surface-variant">IQ</span>
+              </div>
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className={cn('text-lg font-black', rankColors[iq.rank] ?? 'text-primary')}>{iq.rank} Rank</span>
+                <span className="bg-primary/10 text-primary text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
+                  ID: {venue.id}
+                </span>
+                <span className="bg-tertiary/10 text-tertiary text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
+                  {s.bwgStatus}
+                </span>
+              </div>
+              {/* Score Bars */}
+              <div className="space-y-1.5">
+                {iq.breakdown.map((item) => (
+                  <div key={item.label} className="flex items-center gap-2">
+                    <span className="text-[9px] font-bold text-on-surface-variant w-36 shrink-0 hidden sm:block">{item.label}</span>
+                    <div className="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${item.score}%` }}
+                        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+                        className={cn('h-full rounded-full', item.score >= 85 ? 'bg-tertiary' : 'bg-primary')}
+                      />
+                    </div>
+                    <span className="text-[9px] font-black text-on-surface-variant w-7 text-right">{item.score}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="hidden md:grid grid-cols-2 gap-3 shrink-0">
+              {[
+                { label: 'Total Visits', value: s.totalVisits, color: 'text-primary' },
+                { label: 'Avg Score', value: `${s.avgVisitScore}/5`, color: 'text-tertiary' },
+                { label: 'Comm. Collected', value: formatCurrency(s.commissionCollected), color: 'text-emerald-600' },
+                { label: 'Comm. Pending', value: formatCurrency(s.commissionPending), color: s.commissionPending > 0 ? 'text-error' : 'text-tertiary' },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-surface-container-low rounded-2xl px-4 py-3 min-w-[110px]">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant mb-0.5">{stat.label}</p>
+                  <p className={cn('text-base font-black', stat.color)}>{stat.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-1 px-6 pt-4 pb-0 shrink-0 overflow-x-auto">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={cn(
+                'flex items-center gap-1.5 px-4 py-2.5 rounded-t-xl text-xs font-black whitespace-nowrap transition-all',
+                tab === t.id
+                  ? 'bg-surface-container-lowest text-primary border border-b-0 border-outline-variant/20'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              )}
+            >
+              <t.icon className="w-3.5 h-3.5" />
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="flex-1 overflow-y-auto bg-surface-container-lowest border-t border-outline-variant/20">
+          <AnimatePresence mode="wait">
+            {/* ── SUMMARY TAB ── */}
+            {tab === 'summary' && (
+              <motion.div key="summary" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-6 space-y-6">
+                {/* Mobile quick stats */}
+                <div className="grid grid-cols-2 gap-3 md:hidden">
+                  {[
+                    { label: 'Total Visits', value: s.totalVisits, icon: History, color: 'text-primary' },
+                    { label: 'Avg Score', value: `${s.avgVisitScore}/5`, icon: Star, color: 'text-amber-500' },
+                    { label: 'Comm. Collected', value: formatCurrency(s.commissionCollected), icon: Wallet, color: 'text-emerald-600' },
+                    { label: 'Pending', value: formatCurrency(s.commissionPending), icon: AlertCircle, color: 'text-error' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="bg-surface-container-low rounded-2xl p-4">
+                      <stat.icon className={cn('w-5 h-5 mb-2', stat.color)} />
+                      <p className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">{stat.label}</p>
+                      <p className={cn('text-lg font-black mt-0.5', stat.color)}>{stat.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Lead Funnel */}
+                <div>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-primary" /> Lead Pipeline Overview
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      { label: 'Total Leads', value: s.totalLeads, bg: 'bg-primary/5', text: 'text-primary', bar: 'bg-primary' },
+                      { label: 'Converted', value: s.convertedLeads, bg: 'bg-emerald-500/5', text: 'text-emerald-600', bar: 'bg-emerald-500' },
+                      { label: 'Pending', value: s.pendingLeads, bg: 'bg-amber-500/5', text: 'text-amber-600', bar: 'bg-amber-500' },
+                      { label: 'Lost', value: s.lostLeads, bg: 'bg-error/5', text: 'text-error', bar: 'bg-error' },
+                    ].map((item) => (
+                      <div key={item.label} className={cn('rounded-2xl p-4', item.bg)}>
+                        <p className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">{item.label}</p>
+                        <p className={cn('text-2xl font-black mt-1', item.text)}>{item.value}</p>
+                        <div className="mt-2 h-1 bg-surface-container-high rounded-full overflow-hidden">
+                          <div className={cn('h-full rounded-full', item.bar)} style={{ width: `${(item.value / s.totalLeads) * 100}%` }} />
+                        </div>
+                        <p className="text-[8px] font-bold text-on-surface-variant mt-1">{Math.round((item.value / s.totalLeads) * 100)}%</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Visit Stats */}
+                <div>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+                    <History className="w-4 h-4 text-primary" /> Visit Summary
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {[
+                      { label: 'Total Visits', value: s.totalVisits },
+                      { label: 'This Month', value: s.visitsThisMonth },
+                      { label: 'Last Visit', value: venue.lastVisit },
+                    ].map((item) => (
+                      <div key={item.label} className="bg-surface-container-low rounded-2xl px-4 py-4 border border-outline-variant/10">
+                        <p className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant mb-1">{item.label}</p>
+                        <p className="text-xl font-black text-on-surface">{item.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── VISITS TAB ── */}
+            {tab === 'visits' && (
+              <motion.div key="visits" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-6">
+                <div className="space-y-3">
+                  {audit.visitLog.map((v, i) => (
+                    <div key={i} className="flex gap-4 items-start p-4 bg-surface-container-low rounded-2xl border border-outline-variant/10 hover:border-primary/20 transition-colors">
+                      <div className="shrink-0 flex flex-col items-center gap-1">
+                        {outcomeIcon(v.outcome)}
+                        {i < audit.visitLog.length - 1 && <div className="w-px h-full min-h-[1.5rem] bg-outline-variant/20" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <span className={cn('text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border', visitTypeColor[v.type] ?? 'bg-surface-container text-on-surface-variant border-outline-variant/20')}>
+                            {v.type}
+                          </span>
+                          <span className="text-[9px] font-bold text-on-surface-variant">{v.date}</span>
+                          <span className="text-[9px] font-bold text-on-surface-variant ml-auto">{v.executive}</span>
+                        </div>
+                        <p className="text-sm font-medium text-on-surface-variant leading-snug">{v.notes}</p>
+                        <p className={cn(
+                          'text-[9px] font-black uppercase tracking-widest mt-1.5',
+                          v.outcome === 'Success' || v.outcome === 'Collected' || v.outcome === 'Completed' ? 'text-emerald-600' :
+                          v.outcome === 'Declined' ? 'text-error' : 'text-amber-600'
+                        )}>
+                          {v.outcome}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── COMMISSION TAB ── */}
+            {tab === 'commission' && (
+              <motion.div key="commission" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-6 space-y-6">
+                {/* Totals */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-emerald-500/5 rounded-2xl p-5 border border-emerald-200/30">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-emerald-700 mb-1">Total Collected</p>
+                    <p className="text-2xl font-black text-emerald-600">{formatCurrency(s.commissionCollected)}</p>
+                  </div>
+                  <div className={cn('rounded-2xl p-5 border', s.commissionPending > 0 ? 'bg-error/5 border-error/20' : 'bg-tertiary/5 border-tertiary/20')}>
+                    <p className={cn('text-[9px] font-black uppercase tracking-widest mb-1', s.commissionPending > 0 ? 'text-error' : 'text-tertiary')}>Pending</p>
+                    <p className={cn('text-2xl font-black', s.commissionPending > 0 ? 'text-error' : 'text-tertiary')}>
+                      {s.commissionPending > 0 ? formatCurrency(s.commissionPending) : 'Nil'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Monthly table */}
+                <div>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-primary" /> Monthly Breakdown
+                  </h3>
+                  <div className="rounded-2xl overflow-hidden border border-outline-variant/15">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-surface-container-low">
+                          <th className="text-left text-[9px] font-black uppercase tracking-widest text-on-surface-variant px-4 py-3">Month</th>
+                          <th className="text-right text-[9px] font-black uppercase tracking-widest text-on-surface-variant px-4 py-3">Collected</th>
+                          <th className="text-right text-[9px] font-black uppercase tracking-widest text-on-surface-variant px-4 py-3">Pending</th>
+                          <th className="text-center text-[9px] font-black uppercase tracking-widest text-on-surface-variant px-4 py-3">Mode</th>
+                          <th className="text-center text-[9px] font-black uppercase tracking-widest text-on-surface-variant px-4 py-3">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {audit.commissionLog.map((row, i) => (
+                          <tr key={i} className="border-t border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors">
+                            <td className="px-4 py-3 font-bold text-on-surface">{row.month}</td>
+                            <td className="px-4 py-3 text-right font-black text-emerald-600">
+                              {row.collected > 0 ? formatCurrency(row.collected) : '—'}
+                            </td>
+                            <td className="px-4 py-3 text-right font-black text-error">
+                              {row.pending > 0 ? formatCurrency(row.pending) : '—'}
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <span className="text-[9px] font-bold bg-surface-container px-2 py-0.5 rounded-full text-on-surface-variant">
+                                {row.mode}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <span className={cn(
+                                'text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full',
+                                row.status === 'Paid' ? 'bg-emerald-500/10 text-emerald-600' :
+                                row.status === 'Partial' ? 'bg-amber-500/10 text-amber-600' :
+                                'bg-surface-container text-on-surface-variant'
+                              )}>
+                                {row.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── LEADS TAB ── */}
+            {tab === 'leads' && (
+              <motion.div key="leads" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-6 space-y-6">
+                {/* Funnel visual */}
+                <div>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-primary" /> Conversion Funnel
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { stage: 'Total Leads Captured', value: s.totalLeads, pct: 100, color: 'bg-primary' },
+                      { stage: 'Converted to Booking', value: s.convertedLeads, pct: Math.round((s.convertedLeads / s.totalLeads) * 100), color: 'bg-emerald-500' },
+                      { stage: 'Pending / Follow-up', value: s.pendingLeads, pct: Math.round((s.pendingLeads / s.totalLeads) * 100), color: 'bg-amber-500' },
+                      { stage: 'Lost / Dropped', value: s.lostLeads, pct: Math.round((s.lostLeads / s.totalLeads) * 100), color: 'bg-error' },
+                    ].map((item) => (
+                      <div key={item.stage} className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-on-surface-variant w-44 shrink-0 hidden sm:block">{item.stage}</span>
+                        <div className="flex-1 h-7 bg-surface-container-low rounded-xl overflow-hidden relative">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${item.pct}%` }}
+                            transition={{ duration: 0.7, ease: 'easeOut' }}
+                            className={cn('h-full rounded-xl flex items-center justify-end pr-3', item.color)}
+                          >
+                            <span className="text-[10px] font-black text-white">{item.pct}%</span>
+                          </motion.div>
+                        </div>
+                        <span className="text-sm font-black text-on-surface w-8 text-right">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Conversion Rate KPI */}
+                <div className="bg-primary/5 rounded-2xl p-5 flex items-center gap-4 border border-primary/10">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <TrendingUp className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">Overall Conversion Rate</p>
+                    <p className="text-3xl font-black text-primary">{venue.crmDetails.conversionRate}</p>
+                    <p className="text-xs text-on-surface-variant font-medium mt-0.5">
+                      {s.convertedLeads} out of {s.totalLeads} leads successfully converted to bookings.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── VenueProfile ─────────────────────────────────────────────────────────────
 export function VenueProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('venue');
   const [isFabExpanded, setIsFabExpanded] = useState(false);
+  const [showAuditModal, setShowAuditModal] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
   React.useEffect(() => {
@@ -372,7 +770,10 @@ export function VenueProfile() {
                       <p className="text-sm text-on-surface-variant font-medium leading-relaxed">
                         Based on visit frequency, commission punctuality, and lead conversion, this property holds a <strong>Platinum Rank</strong>. Focus on upgrading them to the 'BWG Gold' partnership tier.
                       </p>
-                      <button className="mt-4 text-primary font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all mx-auto md:mx-0">
+                      <button
+                        onClick={() => setShowAuditModal(true)}
+                        className="mt-4 text-primary font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all mx-auto md:mx-0"
+                      >
                         View Detailed Audit <ArrowRight className="w-4 h-4" />
                       </button>
                    </div>
@@ -383,43 +784,48 @@ export function VenueProfile() {
         </div>
       </div>
       
-      {/* Floating Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-[110] pb-28 p-6 md:p-10 pointer-events-none">
-        <div className="max-w-7xl mx-auto flex justify-end">
-           <motion.div 
-             initial={{ y: 100 }} 
-             animate={{ y: 0 }} 
-             className="flex gap-4 pointer-events-auto"
-           >
-              <button 
-                onClick={() => {
-                  if (windowWidth < 768 && !isFabExpanded) {
-                    setIsFabExpanded(true);
-                  } else {
-                    navigate('/general-visit');
-                  }
-                }}
-                className={cn(
-                  "bg-on-surface text-surface py-5 px-8 rounded-2xl font-black shadow-2xl flex items-center gap-3 transition-all active:scale-95",
-                  windowWidth < 768 && !isFabExpanded ? "px-5" : "px-8"
-                )}
+      {/* Audit Modal */}
+      <AnimatePresence>
+        {showAuditModal && (
+          <AuditModal venue={venue} onClose={() => setShowAuditModal(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* Floating Action Button */}
+      <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-110">
+        <motion.button
+          initial={{ y: 80, opacity: 0, scale: 0.8 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 320, damping: 26, delay: 0.15 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            if (windowWidth < 768 && !isFabExpanded) {
+              setIsFabExpanded(true);
+            } else {
+              navigate('/general-visit');
+            }
+          }}
+          className={cn(
+            "bg-primary text-white h-14 rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center gap-3 transition-[width,box-shadow] duration-300 ease-in-out hover:shadow-primary/60",
+            windowWidth < 768 && !isFabExpanded ? "w-14" : "px-6"
+          )}
+        >
+          <CalendarCheck className="w-5 h-5 shrink-0" />
+          <AnimatePresence>
+            {(isFabExpanded || windowWidth >= 768) && (
+              <motion.span
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.22 }}
+                className="overflow-hidden whitespace-nowrap font-black text-sm tracking-wide"
               >
-                <CalendarCheck className="w-5 h-5 text-primary" />
-                <AnimatePresence mode="wait">
-                  {(isFabExpanded || windowWidth >= 768) && (
-                    <motion.span
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: 1, width: 'auto' }}
-                      exit={{ opacity: 0, width: 0 }}
-                      className="overflow-hidden whitespace-nowrap"
-                    >
-                      Log General Visit
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </button>
-           </motion.div>
-        </div>
+                Log General Visit
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
     </div>
   );
