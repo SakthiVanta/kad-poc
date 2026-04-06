@@ -112,16 +112,16 @@ export function KAMSettings() {
                   style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px)', backgroundSize: '22px 22px' }}
                 />
               </div>
-              <div className="px-5 sm:px-6 pb-6 relative">
-                <div className="absolute -top-10 left-5 sm:left-6 p-1.5 bg-surface-container-lowest rounded-full shadow-lg">
+              <div className="px-5 sm:px-6 pb-6 relative text-center">
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 p-1.5 bg-surface-container-lowest rounded-full shadow-lg">
                   <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-black select-none">
                     {user?.name?.charAt(0) ?? 'K'}
                   </div>
                 </div>
                 <div className="mt-14 space-y-0.5">
-                  <h3 className="text-xl font-black text-on-surface">{user?.name ?? 'KAM User'}</h3>
-                  <p className="text-xs font-bold text-primary uppercase tracking-widest">Key Account Manager</p>
-                  <p className="text-sm text-on-surface-variant">{user?.email ?? '—'}</p>
+                  <h3 className="text-xl font-black text-on-surface truncate">{user?.name ?? 'KAM User'}</h3>
+                  <p className="text-[10px] font-black text-primary uppercase tracking-widest">Key Account Manager</p>
+                  <p className="text-sm text-on-surface-variant truncate">{user?.email ?? '—'}</p>
                 </div>
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center justify-between px-3 py-2.5 bg-surface-container-low rounded-xl">
@@ -221,7 +221,7 @@ export function KAMSettings() {
               </h2>
               {NOTIFICATIONS.map((item) => (
                 <NotificationToggle
-                  key={item.label}
+                  // key={item.label}
                   label={item.label}
                   desc={item.desc}
                   defaultOn={item.defaultOn}
