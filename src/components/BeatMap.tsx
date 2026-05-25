@@ -34,6 +34,27 @@ const getUserLocationIcon = () => L.divIcon({
   popupAnchor: [0, -11]
 });
 
+// Dropped pin for clicked map location
+const getDroppedPinIcon = () => L.divIcon({
+  html: `
+    <div style="position:relative;width:28px;height:36px">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 24 32" style="filter:drop-shadow(0 3px 6px rgba(59,130,246,0.5))">
+        <path d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 16 8 16s8-10.5 8-16c0-4.42-3.58-8-8-8z" fill="#3b82f6"/>
+        <circle cx="12" cy="8" r="3.5" fill="white"/>
+      </svg>
+      <div style="
+        position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
+        width:6px;height:6px;background:rgba(59,130,246,0.25);
+        border-radius:50%;
+      "></div>
+    </div>
+  `,
+  className: 'bg-transparent',
+  iconSize: [28, 36],
+  iconAnchor: [14, 36],
+  popupAnchor: [0, -36]
+});
+
 // Fix for default marker icon
 const getMarkerIcon = (status?: string) => {
   let colorClass = 'text-primary';
@@ -192,6 +213,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
   const [hoveredVenue, setHoveredVenue] = useState<Venue | null>(null);
   const [clickedVenue, setClickedVenue] = useState<Venue | null>(null);
   const [filter, setFilter] = useState<'all' | 'visited' | 'pending' | 'priority'>('all');
+  const [nearbyClickedLocation, setNearbyClickedLocation] = useState<[number, number] | null>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -212,6 +234,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
         const loc: [number, number] = [position.coords.latitude, position.coords.longitude];
         setUserLocation(loc);
         setFlyTarget(loc);
+        setNearbyClickedLocation(loc);
         setIsLocating(false);
       },
       (error) => {
@@ -253,7 +276,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
               </div>
               <div>
                 <h3 className="text-xl font-black tracking-tight">Beat Intelligence Map</h3>
-                <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                   <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Active Beat:</span>
                   <div className="relative">
                     <select
@@ -273,6 +296,27 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                       </svg>
                     </div>
                   </div>
+                  {nearbyClickedLocation && (
+                    <AnimatePresence>
+                      <motion.button
+                        key="nearby-coords"
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -8 }}
+                        onClick={() => setFlyTarget([...nearbyClickedLocation])}
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 transition-colors"
+                        title="Click to fly to this location"
+                      >
+                        <MapPin className="w-3 h-3 text-blue-500" />
+                        <span className="text-[10px] font-black text-blue-500 tabular-nums">
+                          {nearbyClickedLocation[0].toFixed(5)}, {nearbyClickedLocation[1].toFixed(5)}
+                        </span>
+                      </motion.button>
+                    </AnimatePresence>
+                  )}
+                  {!nearbyClickedLocation && userLocation && (
+                    <span className="text-[10px] text-on-surface-variant/50 font-medium italic">press locate to pin your location</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -367,6 +411,20 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                 </Marker>
               )}
 
+              {/* Clicked location dropped pin */}
+              {nearbyClickedLocation && (
+                <Marker position={nearbyClickedLocation} icon={getDroppedPinIcon()}>
+                  <Popup>
+                    <div className="text-center p-1">
+                      <p className="font-bold text-xs text-blue-500">Pinned Location</p>
+                      <p className="text-[10px] text-on-surface-variant tabular-nums">
+                        {nearbyClickedLocation[0].toFixed(5)}, {nearbyClickedLocation[1].toFixed(5)}
+                      </p>
+                    </div>
+                  </Popup>
+                </Marker>
+              )}
+
               {/* Venue Markers */}
               {filteredVenues.map((venue) => (
                 <Marker 
@@ -376,7 +434,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                   eventHandlers={{
                     mouseover: () => setHoveredVenue(venue),
                     mouseout: () => setHoveredVenue(null),
-                    click: () => setClickedVenue(venue)
+                    click: (e) => { L.DomEvent.stopPropagation(e); setClickedVenue(venue); }
                   }}
                 >
                   <Popup>
@@ -440,7 +498,7 @@ export function BeatMap({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
                   exit={{ opacity: 0, y: 20 }}
                   style={{ zIndex: 9999 }}
                   className={cn(
-                    "absolute bottom-8 right-8 w-80 bg-surface-container-lowest rounded-[32px] shadow-2xl border border-outline-variant/10 overflow-hidden",
+                    "absolute bottom-8 right-8 w-80 bg-surface-container-lowest rounded-4xl shadow-2xl border border-outline-variant/10 overflow-hidden",
                     clickedVenue ? "ring-2 ring-primary/20" : ""
                   )}
                 >
